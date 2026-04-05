@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream Shaman - 极速入口与潜意识疗愈</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 星空深蓝神秘氛围 */
+            --bg-color: #050a15;
+            --text-color: #e2e8f0;
+            --primary-color: #8b5cf6;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            /* 更有神秘感的星空蓝色渐变 */
+            background-image: 
+                radial-gradient(circle at top right, rgba(30, 27, 75, 0.8), transparent 60%),
+                radial-gradient(circle at bottom left, rgba(15, 23, 42, 0.9), transparent 80%),
+                linear-gradient(to bottom, #050a15, #02040a);
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 414px;
+            height: 896px;
+            max-height: 100vh;
+            background: rgba(10, 15, 30, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            box-shadow: 0 0 80px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 顶部导航，去除科技感，增强神秘符号化 */
+        .nav {
+            padding: 40px 24px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin: 0;
+            letter-spacing: 4px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .view-step {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            padding: 90px 24px 30px;
+            box-sizing: border-box;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            overflow-y: auto;
+            z-index: 5;
+        }
+
+        .view-step::-webkit-scrollbar { display: none; }
+        .view-step.active {
+            display: flex;
+            animation: slideUpFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .step-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            color: #f8fafc;
+            text-align: center;
+            text-shadow: 0 4px 20px rgba(255,255,255,0.2);
+        }
+
+        .step-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95rem;
+            margin-bottom: 50px;
+            letter-spacing: 1px;
+        }
+
+        /* --- 1. 极速入口卡片 (Home) --- */
+        .cards-container {
+            display: flex;
+            gap: 16px;
+            height: 45%;
+            margin-top: 20px;
+        }
+
+        .mode-card {
+            flex: 1;
+            border-radius: 24px;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mode-card:hover { transform: translateY(-5px); }
+
+        /* 清晰模式：清透的镜子 */
+        .clear-glass {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+            backdrop-filter: blur(5px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.1);
+        }
+        .clear-glass::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+        }
+
+        /* 模糊模式：磨砂玻璃 */
+        .frosted-glass {
+            background: rgba(20, 20, 35, 0.5);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 10px rgba(255,255,255,0.2));
+        }
+
+        .card-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .card-desc {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            line-height: 1.4;
+        }
+
+
+        /* --- 2. 录入页通用样式 --- */
+        .input-header {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .btn-manifest {
+            background: transparent;
+            color: rgba(255,255,255,0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 18px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-manifest:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 20px rgba(255,255,255,0.2);
+        }
+
+        /* 录入 - 清晰模式 */
+        .full-textarea {
+            width: 100%;
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: #f8fafc;
+            font-size: 1.15rem;
+            font-family: 'Noto Serif SC', serif;
+            line-height: 1.8;
+            resize: none;
+            margin-bottom: 20px;
+        }
+        .full-textarea:focus { outline: none; }
+        .full-textarea::placeholder { color: rgba(255, 255, 255, 0.2); }
+
+        .mic-fab {
+            position: absolute;
+            right: 24px;
+            bottom: 110px;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+
+        /* 录入 - 模糊模式 (Tag Input) */
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .dream-tag {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 1rem;
+            animation: fadeInScale 0.3s ease forwards;
+            backdrop-filter: blur(5px);
+        }
+
+        .tag-input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            font-family: 'Noto Serif SC', serif;
+            min-width: 120px;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.3);
+        }
+        .tag-input:focus { outline: none; border-bottom: 1px solid rgba(255,255,255,0.8); }
+        .tag-input::placeholder { color: rgba(255,255,255,0.2); }
+
+        /* --- 漩涡吸入动效级 (神秘能量捕获) --- */
+        .vortex {
+            position: absolute;
+            width: 140px; height: 140px;
+            background: conic-gradient(from 0deg, transparent 0%, rgba(139, 92, 246, 0.3) 25%, rgba(192, 132, 252, 0.8) 50%, rgba(139, 92, 246, 0.3) 75%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+            filter: blur(3px);
+            mix-blend-mode: screen;
+            animation: vortexSpin 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .vortex::before {
+            content: '';
+            position: absolute;
+            top: 15%; left: 15%;
+            width: 70%; height: 70%;
+            border: 2px dashed rgba(233, 213, 255, 0.6);
+            border-radius: 50%;
+            box-shadow: inset 0 0 15px rgba(139, 92, 246, 0.8);
+            animation: vortexPulse 0.35s linear infinite alternate;
+        }
+
+        .vortex::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 15%; height: 15%;
+            background: #02040a;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px 10px rgba(139, 92, 246, 0.9), 0 0 40px 20px rgba(192, 132, 252, 0.6);
+        }
+
+        .sucked-text {
+            position: absolute;
+            color: #fff;
+            font-size: 1.2rem;
+            font-family: 'Noto Serif SC', serif;
+            pointer-events: none;
+            z-index: 11;
+            white-space: nowrap;
+            text-shadow: 0 0 5px #fff, 0 0 15px #c084fc;
+            animation: textSuck 0.7s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
+        }
+
+        @keyframes vortexPulse {
+            0% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+            100% { transform: scale(0.8) rotate(-45deg); opacity: 1; }
+        }
+
+        @keyframes vortexSpin {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
+            40% { transform: translate(-50%, -50%) scale(1.2) rotate(360deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0) rotate(1440deg); opacity: 0; }
+        }
+
+        @keyframes textSuck {
+            0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; filter: blur(0px); letter-spacing: 1px; }
+            40% { filter: blur(1px); letter-spacing: 5px; opacity: 0.9; }
+            100% { transform: translate(-50%, -50%) scale(0) rotate(-1080deg); opacity: 0; filter: blur(8px); letter-spacing: -2px; }
+        }
+
+        /* --- 3. Loading 祭司窥探 --- */
+        .mystic-loading-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .mystic-eye {
+            width: 80px; height: 80px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50% 0 50% 0;
+            transform: rotate(45deg);
+            display: flex; justify-content: center; align-items: center;
+            animation: breathe 3s infinite ease-in-out;
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+        }
+        .mystic-eye::after {
+            content: ''; width: 30px; height: 30px;
+            background: radial-gradient(circle, #e2e8f0 0%, #8b5cf6 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 20px #8b5cf6;
+        }
+
+        .mystic-text {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.8);
+            margin-top: 40px;
+            letter-spacing: 3px;
+        }
+
+        /* --- Interpret Phase --- */
+        .interpret-content {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 80px;
+        }
+        .interpret-content p { margin-bottom: 16px; }
+
+        /* General Slider Logic Overlays */
+        .slider-wrapper {
+            width: 100%; position: relative; height: 60px;
+            background: rgba(255, 255, 255, 0.05); border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden; touch-action: none; margin-top: auto; flex-shrink: 0; z-index: 20;
+        }
+        .slider-track {
+            position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+            border-radius: 30px; background: linear-gradient(90deg, rgba(88, 166, 255, 0.2), rgba(88, 166, 255, 0.8));
+        }
+        .slider-track.visual-healing { background: linear-gradient(90deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.8)); }
+        .slider-thumb {
+            position: absolute; top: 5px; left: 5px; width: 50px; height: 50px;
+            background: #fff; border-radius: 50%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2;
+        }
+        .slider-hint {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            color: rgba(255, 255, 255, 0.7); font-size: 0.95rem; pointer-events: none; z-index: 1; transition: opacity 0.3s;
+        }
+
+        .gen-status { text-align: center; font-size: 0.95rem; color: #a78bfa; display: none; animation: pulse 1.5s infinite; z-index: 10; }
+
+        /* Image Visual Transformation (Step 4 - The Magic) */
+        #step-visual { padding: 0; background: #000; overflow: hidden; }
+        .visual-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 60%; z-index: 1; overflow: hidden;
+            mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+        }
+        .img-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center; transition: opacity 2.5s ease, transform 5s ease, filter 2.5s ease;
+        }
+        #nightmare-img { background-image: url('./images/nightmare_ocean.png'); opacity: 1; filter: saturate(0.6) contrast(1.2) brightness(0.7); transform: scale(1.05); }
+        #healing-img { background-image: url('./images/healing_ocean.png'); opacity: 0; filter: brightness(1.2) blur(8px); transform: scale(1); }
+        .narrative-container {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; padding: 30px 24px; box-sizing: border-box; z-index: 5;
+            display: flex; flex-direction: column; justify-content: flex-end; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+        }
+        .visual-narrative-text {
+            font-family: 'Noto Serif SC', serif; font-size: 1.15rem; line-height: 1.7; margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9); min-height: 100px; transition: opacity 0.8s ease; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+
+        .transformed #nightmare-img { opacity: 0; filter: saturate(0) blur(10px); transform: scale(1); }
+        .transformed #healing-img { opacity: 1; filter: brightness(1) blur(0px); transform: scale(1.05); }
+        .transformed #visual-slider-wrapper { opacity: 0; transform: translateY(20px); pointer-events: none; }
+
+        @keyframes slideUpFadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes rippleExpand { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(20); opacity: 0; } }
+        @keyframes breathe { 0%, 100% { transform: rotate(45deg) scale(1); box-shadow: 0 0 30px rgba(139, 92, 246, 0.2); } 50% { transform: rotate(45deg) scale(1.1); box-shadow: 0 0 50px rgba(139, 92, 246, 0.6); } }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+
+        /* --- 考古模式 (Archive) --- */
+        .archive-btn {
+            position: absolute; bottom: 30px; right: 24px;
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px; border-radius: 30px; cursor: pointer;
+            backdrop-filter: blur(10px); transition: all 0.3s ease; z-index: 10;
+        }
+        .archive-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(139, 92, 246, 0.5); box-shadow: 0 0 15px rgba(139, 92, 246, 0.3); }
+        .archive-text { font-family: 'Noto Serif SC', serif; font-size: 0.85rem; color: rgba(255, 255, 255, 0.7); }
+
+        .nav-back { font-size: 1rem; color: rgba(255,255,255,0.6); cursor: pointer; margin-bottom: 20px; transition: color 0.3s ease; display: inline-block; }
+        .nav-back:hover { color: #fff; }
+
+        .archive-list { display: flex; flex-direction: column; gap: 16px; padding-bottom: 30px; margin-top: 20px;}
+        .archive-card {
+            background: linear-gradient(145deg, rgba(30, 30, 45, 0.4), rgba(15, 15, 25, 0.6));
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 20px;
+            cursor: pointer; transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .archive-card:hover { transform: translateY(-3px); border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .archive-date { font-size: 0.8rem; color: #a78bfa; margin-bottom: 8px; letter-spacing: 1px; }
+        .archive-card-title { font-family: 'Noto Serif SC', serif; font-size: 1.1rem; color: #fff; margin-bottom: 12px; }
+        .archive-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .archive-tags span { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 12px; color: rgba(255,255,255,0.8); }
+
+        /* --- Detail View Styles --- */
+        .detail-section-title {
+            font-family: 'Noto Serif SC', serif; font-size: 1.1rem;
+            color: rgba(255,255,255,0.9); margin-bottom: 12px;
+            border-left: 3px solid #8b5cf6; padding-left: 10px; margin-top: 25px;
+        }
+
+        /* --- Tarot Interactive Phase --- */
+        .tarot-container {
+            display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 30px;
+        }
+        .tarot-card {
+            width: 90px; height: 160px; background: rgba(20, 15, 30, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 0 15px rgba(139, 92, 246, 0.1);
+            cursor: pointer; position: relative; transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform-style: preserve-3d; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transform: perspective(1000px); z-index: 10;
+        }
+        
+        .tarot-card::before {
+            content: ''; position: absolute; top: 6px; left: 6px; right: 6px; bottom: 6px;
+            border: 1px dashed rgba(255,255,255,0.15); border-radius: 8px; pointer-events: none;
+        }
+        
+        /* The Mystic back aura */
+        .tarot-card::after {
+            content: ''; position: absolute; width: 40px; height: 40px;
+            background: radial-gradient(circle, rgba(192, 132, 252, 0.4) 0%, transparent 70%);
+            top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; opacity: 0.8;
+            pointer-events: none; mix-blend-mode: screen;
+        }
+        
+        .tarot-card-title {
+            color: rgba(255,255,255,0.8); font-size: 0.95rem; font-family: 'Noto Serif SC', serif;
+            text-align: center; margin-top: 15px; writing-mode: vertical-rl; letter-spacing: 4px;
+        }
+        .tarot-icon { font-size: 1.8rem; text-shadow: 0 0 15px rgba(139, 92, 246, 0.9); z-index: 2; }
+        
+        .tarot-card:hover { box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5); transform: perspective(1000px) translateY(-15px) scale(1.05); border-color: rgba(192, 132, 252, 0.6); }
+        
+        /* Expanded Active Tarot Card */
+        .tarot-card.active {
+            position: absolute; width: 340px; height: 480px; z-index: 50;
+            top: 45%; left: 50%; transform: translate(-50%, -50%) scale(1);
+            background: linear-gradient(to bottom, rgba(30, 20, 45, 0.95), rgba(10, 5, 20, 0.98)); backdrop-filter: blur(25px);
+            border-color: rgba(192, 132, 252, 0.8); box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 40px rgba(139, 92, 246, 0.4);
+            padding: 30px 24px; box-sizing: border-box; flex-direction: column;
+            justify-content: flex-start; cursor: default; border-radius: 20px;
+        }
+        .tarot-card.active::before { border: 1px solid rgba(192, 132, 252, 0.3); border-radius: 14px; top: 10px; left: 10px; right: 10px; bottom: 10px;}
+        .tarot-card.active::after { display: none; }
+        .tarot-card.active .tarot-card-title { writing-mode: horizontal-tb; font-size: 1.5rem; margin-top: 15px; margin-bottom: 25px; letter-spacing: 2px; color: #fff;}
+        .tarot-card.active .tarot-icon { font-size: 3.5rem; }
+        
+        .tarot-input-container {
+            display: none; width: 100%; flex-grow: 1; flex-direction: column; opacity: 0; transition: opacity 0.4s ease;
+        }
+        .tarot-card.active .tarot-input-container { display: flex; opacity: 1; }
+        
+        .tarot-textarea {
+            width: 100%; flex-grow: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; color: #fff; font-family: 'Noto Serif SC', serif; font-size: 1.05rem;
+            padding: 18px; resize: none; line-height: 1.6; box-sizing: border-box;
+        }
+        .tarot-textarea:focus { outline: none; border-color: rgba(192, 132, 252, 0.6); box-shadow: inset 0 0 10px rgba(139, 92, 246, 0.2); }
+        .tarot-textarea::placeholder { color: rgba(255,255,255,0.25); font-weight: 300; }
+        
+        .tarot-close-btn {
+            margin-top: 24px; background: rgba(139, 92, 246, 0.2); border: 1px solid rgba(139, 92, 246, 0.4); color: #e2e8f0;
+            padding: 14px 0; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-family: 'Noto Serif SC', serif; font-size: 1.1rem;
+            width: 100%; box-sizing: border-box;
+        }
+        .tarot-close-btn:hover { background: rgba(139, 92, 246, 0.5); color: #fff; border-color: rgba(192, 132, 252, 0.8); }
+        
+        .tarot-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(5px); z-index: 40; pointer-events: none; opacity: 0; transition: opacity 0.5s ease;
+        }
+        .tarot-overlay.active { pointer-events: auto; opacity: 1; }
+
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        
+        <!-- Navigation -->
+        <div class="nav">
+            <h1>✦</h1>
+        </div>
+
+        <!-- 1. The Entry Page (Mode Selection) -->
+        <div class="view-step active" id="step-home" style="justify-content: center; padding-top: 40px;">
+            <div class="step-title">梦境迷雾</div>
+            <div class="step-subtitle">透过迷雾，你还记得多少？</div>
+            
+            <div class="cards-container">
+                <div class="mode-card clear-glass" onclick="goToStep('step-home', 'step-input-clear')">
+                    <div class="card-icon">🪞</div>
+                    <div class="card-title">梦境历历在目</div>
+                    <div class="card-desc">依然能回想细节<br>犹如身临其境</div>
+                </div>
+                
+                <div class="mode-card frosted-glass" onclick="goToStep('step-home', 'step-input-fragment')">
+                    <div class="card-icon">🌫️</div>
+                    <div class="card-title">仅存破碎余温</div>
+                    <div class="card-desc">只留下零星片段<br>无法拼凑全貌</div>
+                </div>
+            </div>
+
+            <!-- 考古模式入口 -->
+            <div class="archive-btn" onclick="goToStep('step-home', 'step-archive')">
+                <span style="font-size: 1.1rem;">📜</span>
+                <span class="archive-text">梦境封印录</span>
+            </div>
+        </div>
+
+        <!-- 1.5 The Archive Page (Dream List) -->
+        <div class="view-step" id="step-archive">
+            <div class="nav-back" onclick="goToStep('step-archive', 'step-home')">⟵ 返回</div>
+            <div class="step-title" style="text-align: left; font-size: 1.8rem;">梦境封印录</div>
+            <div class="step-subtitle" style="text-align: left; margin-bottom: 10px;">重新凝视你遗落的潜意识碎片</div>
+            
+            <div class="archive-list">
+                <div class="archive-card" onclick="goToStep('step-archive', 'step-archived-detail')">
+                    <div class="archive-date">2026.04.04</div>
+                    <div class="archive-card-title">高维的机器与光洞</div>
+                    <div class="archive-tags">
+                        <span>#光球</span>
+                        <span>#新生</span>
+                        <span>#高维游戏</span>
+                    </div>
+                </div>
+                
+                <div class="archive-card">
+                    <div class="archive-date">2026.03.28</div>
+                    <div class="archive-card-title">深海无止境的下坠</div>
+                    <div class="archive-tags">
+                        <span>#失重感</span>
+                        <span>#水</span>
+                        <span>#深海</span>
+                    </div>
+                </div>
+                
+                <div class="archive-card">
+                    <div class="archive-date">2026.03.15</div>
+                    <div class="archive-card-title">在长廊中被追逐</div>
+                    <div class="archive-tags">
+                        <span>#奔跑</span>
+                        <span>#迷宫</span>
+                        <span>#焦虑</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1.6 The Archive Detail Page -->
+        <div class="view-step" id="step-archived-detail">
+            <div class="nav-back" onclick="goToStep('step-archived-detail', 'step-archive')">⟵ 返回封印录</div>
+            <div class="step-title" style="text-align: left; font-size: 1.5rem; margin-bottom: 5px;">高维的机器与光洞</div>
+            <div class="archive-date" style="margin-bottom: 20px;">2026.04.04</div>
+            
+            <div class="archive-tags" style="margin-bottom: 20px;">
+                <span>#光球</span>
+                <span>#新生</span>
+                <span>#高维游戏</span>
+            </div>
+
+            <div class="detail-section-title">梦境原相</div>
+            <div class="detail-image-container" style="text-align: center; margin-bottom: 20px;">
+                <img src="./images/nightmare_ocean.png" alt="Original Dream" style="width: 100%; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); filter: saturate(0.6) brightness(0.8);">
+            </div>
+
+            <div class="detail-section-title">潜意识解析</div>
+            <div class="interpret-content" style="margin-bottom: 30px; font-size: 0.95rem;">
+                <p>「你梦见世界是高维的机器，死亡只是穿过了光洞，化为纯净的光球...」</p>
+                <p>在传统的《周公解梦》中，梦见“死亡”与“穿过洞穴”绝非不祥，而是极为典型的<strong>「新生与蜕变之兆」</strong>。它预示着你即将在现实中告别某个受困的旧周期，迎来一次深刻的认知觉醒。</p>
+                <p>结合潜意识心理学，那个光球汇聚的“纯白空间”与“体验人生的屏幕”，折射出你拥有极其广阔的俯视视角。现实中的纷纷扰扰对你而言，正逐渐变成一场可以随意浏览的深层游戏。你已经开始从焦虑中抽离，成为了一个清醒的<strong>「旁观者」</strong>。</p>
+            </div>
+
+            <div class="detail-section-title">疗愈图景</div>
+            <div class="detail-image-container" style="text-align: center; margin-bottom: 40px;">
+                <img src="./images/healing_ocean.png" alt="Healing Dream" style="width: 100%; border-radius: 16px; border: 1px solid rgba(139, 92, 246, 0.3); box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);">
+                <p style="color: #a78bfa; margin-top: 15px; font-size: 0.95rem; text-align: left; padding: 0 10px;">「肉身的消亡并非终点，而是光球归位的旅程。<br>不要为现实中的得失感到沉重。这不过是一场随时可以重新选择剧本的高维游戏，而你，一直都是那颗最自由的光。」</p>
+            </div>
+        </div>
+
+        <!-- 2a. Input (Clear text) -->
+        <div class="view-step" id="step-input-clear">
+            <div class="nav-back" onclick="goToStep('step-input-clear', 'step-home')">⟵ 返回首页</div>
+            <div class="input-header">回忆显现...</div>
+            <textarea class="full-textarea" placeholder="在这里闭上眼睛，记录下那面镜子中倒映的完整画面..."></textarea>
+            
+            <div class="mic-fab">🎤</div>
+            
+            <button class="btn-manifest" onclick="startManifest('step-input-clear')">开启显化</button>
+        </div>
+
+        <!-- 2b. Input (Fragment tags) -->
+        <div class="view-step" id="step-input-fragment">
+            <div class="nav-back" onclick="goToStep('step-input-fragment', 'step-home')">⟵ 返回首页</div>
+            <div class="input-header">捕捉残留的能量...</div>
+            <div style="font-size:0.9rem; color:rgba(255,255,255,0.4); margin-bottom: 20px;">
+                输入闪过的词汇（空格分离）
+            </div>
+            
+            <div class="tag-container" id="tag-container">
+                <input type="text" class="tag-input" id="fragment-input" placeholder="例如：坠落..." />
+            </div>
+            
+            <div style="flex-grow:1;"></div>
+            <button class="btn-manifest" onclick="startManifest('step-input-fragment')">开启显化</button>
+        </div>
+
+        <!-- 3. Loading (Mystic Shaman) -->
+        <div class="view-step" id="step-loading">
+            <div class="mystic-loading-container">
+                <div class="mystic-eye"></div>
+                <div class="mystic-text" id="loading-text">祭司正在窥探梦境之海...</div>
+            </div>
+        </div>
+
+        <!-- 3.5 The Tarot Refinement Phase -->
+        <div class="view-step" id="step-tarot">
+            <div class="step-title" style="text-align: left; font-size: 1.6rem;">高维追问</div>
+            <div class="step-subtitle" style="text-align: left; margin-bottom: 25px; color: rgba(255,255,255,0.7);">
+                祭司探测到了梦境的细节断层。<br>请点击下方任意卡牌，补全你的能量场（可选）。
+            </div>
+            
+            <div class="tarot-container" id="tarot-deck">
+                <div class="tarot-card" onclick="openTarot(this)">
+                    <div class="tarot-icon">👁️</div>
+                    <div class="tarot-card-title">情绪回响</div>
+                    <div class="tarot-input-container">
+                        <textarea class="tarot-textarea" placeholder="这股能量让你在那一刻感受到了什么？是恐惧、解脱，亦或是某种深沉的宁静..."></textarea>
+                        <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
+                    </div>
+                </div>
+                
+                <div class="tarot-card" onclick="openTarot(this)">
+                    <div class="tarot-icon">⛓️</div>
+                    <div class="tarot-card-title">现实羁绊</div>
+                    <div class="tarot-input-container">
+                        <textarea class="tarot-textarea" placeholder="近期现实中，有什么被困住的局面让你产生了类似的剥离感？你想起了什么人或事？"></textarea>
+                        <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
+                    </div>
+                </div>
+
+                <div class="tarot-card" onclick="openTarot(this)">
+                    <div class="tarot-icon">🕳️</div>
+                    <div class="tarot-card-title">未解之惧</div>
+                    <div class="tarot-input-container">
+                        <textarea class="tarot-textarea" placeholder="在这个空间的倒影里，你潜意识最害怕面对，或最不想失去的是什么？"></textarea>
+                        <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tarot-overlay" id="tarot-overlay" onclick="closeAllTarots()"></div>
+            
+            <div style="flex-grow:1;"></div>
+            <button class="btn-manifest" onclick="finishTarot()" style="background: rgba(139, 92, 246, 0.2); border-color: rgba(192, 132, 252, 0.5);">✨ 灵感补全，开始最终解析</button>
+        </div>
+
+        <!-- 4. Interpret & Generate Image -->
+        <div class="view-step" id="step-interpret">
+            <div class="step-title" style="text-align: left; font-size: 1.8rem; margin-bottom: 30px;">指引：高维的游戏</div>
+            
+            <div class="interpret-content">
+                <p>「你梦见世界是高维的机器，死亡只是穿过了光洞，化为纯净的光球...」</p>
+                <p>在传统的《周公解梦》中，梦见“死亡”与“穿过洞穴”绝非不祥，而是极为典型的<strong>「新生与蜕变之兆」</strong>。它预示着你即将在现实中告别某个受困的旧周期，迎来一次深刻的认知觉醒。</p>
+                <p>结合潜意识心理学，那个光球汇聚的“纯白空间”与“体验人生的屏幕”，折射出你拥有极其广阔的俯视视角。现实中的纷纷扰扰对你而言，正逐渐变成一场可以随意浏览的深层游戏。你已经开始从焦虑中抽离，成为了一个清醒的<strong>「旁观者」</strong>。</p>
+            </div>
+
+            <div style="flex-grow: 1;"></div> 
+
+            <div class="slider-wrapper" id="gen-slider-wrapper">
+                <div class="slider-hint" id="gen-slider-hint">生成梦境图，回到现场 ➔</div>
+                <div class="slider-track" id="gen-slider-track"></div>
+                <div class="slider-thumb" id="gen-slider-thumb">
+                    <span style="color:#3b82f6; font-size:1.2rem; font-weight:bold;">→</span>
+                </div>
+            </div>
+
+            <div class="gen-status" id="gen-status-text">✦ 正在凝聚梦境残影... ✦</div>
+
+            <button class="btn-manifest" id="btn-enter-dream" style="display: none; background: rgba(255,255,255,0.1);" onclick="goToStep('step-interpret', 'step-visual'); initVisualLogic();">
+                ✨ 梦境图生成完毕，进入梦境 ✨
+            </button>
+        </div>
+
+        <!-- 5. The Visual Transformation -->
+        <div class="view-step" id="step-visual">
+            <div class="visual-container">
+                <div class="img-layer" id="nightmare-img"></div>
+                <canvas class="particle-canvas" id="particles"></canvas>
+                <div class="img-layer" id="healing-img"></div>
+            </div>
+
+            <div class="narrative-container">
+                <div class="visual-narrative-text" id="visual-narrative">
+                    「凝视那块代表众生百态的屏幕，无数的剧情或许曾让你感到一丝虚无与疲惫...」<br><br>
+                    <span style="color: rgba(255,255,255,0.5); font-size: 0.9rem;">尝试深呼吸，向右滑动，升维你的潜意识视角。</span>
+                </div>
+                
+                <div class="slider-wrapper" id="visual-slider-wrapper" style="margin-top:0;">
+                    <div class="slider-hint" id="visual-slider-hint">向右滑动，转化意象</div>
+                    <div class="slider-track visual-healing" id="visual-slider-track"></div>
+                    <div class="slider-thumb" id="visual-slider-thumb">
+                        <span style="color:#8b5cf6; font-size:1.3rem; font-weight:bold;">→</span>
+                    </div>
+                </div>
+                
+                <button class="btn-manifest" id="share-btn" style="display: none; margin-top: 15px;" onclick="alert('你已释放情绪。')">
+                    分享至潜意识社交网络
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Single Page View Router ---
+        function goToStep(fromId, toId) {
+            const current = document.getElementById(fromId);
+            const next = document.getElementById(toId);
+            
+            current.style.opacity = '0';
+            current.style.transform = 'translateY(-20px)';
+            
+            setTimeout(() => {
+                current.classList.remove('active');
+                next.classList.add('active');
+            }, 600);
+        }
+
+        // --- Tag Input Fragment Logic & Ripple ---
+        const fragInput = document.getElementById('fragment-input');
+        const tagContainer = document.getElementById('tag-container');
+
+        fragInput.addEventListener('keydown', function(e) {
+            // Prevent triggering tag creation while user is using Input Method (e.g. selecting Chinese pinyin with Space)
+            if (e.isComposing || e.keyCode === 229) {
+                return;
+            }
+            
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const val = this.value.trim();
+                if (val) {
+                    const app = document.getElementById('app-container');
+                    const rect = this.getBoundingClientRect();
+                    const appRect = app.getBoundingClientRect();
+                    
+                    // Calculate relative center of the text input
+                    const textWidth = val.length * 16; // approx width
+                    const centerX = rect.left - appRect.left + Math.min(rect.width/2, textWidth/2) + 20;
+                    const centerY = rect.top - appRect.top + rect.height/2;
+
+                    // 1. Create Vortex
+                    const vortex = document.createElement('div');
+                    vortex.className = 'vortex';
+                    vortex.style.left = centerX + 'px';
+                    vortex.style.top = centerY + 'px';
+                    app.appendChild(vortex);
+                    
+                    // 2. Create Sucked Text
+                    const suckText = document.createElement('div');
+                    suckText.className = 'sucked-text';
+                    suckText.innerText = val;
+                    suckText.style.left = centerX + 'px';
+                    suckText.style.top = centerY + 'px';
+                    app.appendChild(suckText);
+                    
+                    this.value = '';
+                    
+                    // 3. Add Tag after suction effect
+                    setTimeout(() => {
+                        const tag = document.createElement('div');
+                        tag.className = 'dream-tag';
+                        tag.innerText = val;
+                        tagContainer.insertBefore(tag, fragInput);
+                        
+                        // Clean up
+                        if(app.contains(vortex)) vortex.remove();
+                        if(app.contains(suckText)) suckText.remove();
+                    }, 700);
+                }
+            }
+        });
+
+        // Vortex effect replaced the old ripple.
+
+        // --- Submit to Loading to Tarot ---
+        function startManifest(currentStepId) {
+            goToStep(currentStepId, 'step-loading');
+            document.getElementById('loading-text').innerText = "祭司正在窥探梦境之海...";
+            
+            setTimeout(() => {
+                goToStep('step-loading', 'step-tarot');
+            }, 2000);
+        }
+
+        // --- Tarot Interaction Logic ---
+        let activeTarot = null;
+
+        function openTarot(el) {
+            if(activeTarot) return;
+            activeTarot = el;
+            el.classList.add('active');
+            document.getElementById('tarot-overlay').classList.add('active');
+            
+            setTimeout(() => {
+                const ta = el.querySelector('.tarot-textarea');
+                if(ta) ta.focus();
+            }, 300);
+        }
+
+        function closeTarot(e, btnEl) {
+            e.stopPropagation();
+            if(!activeTarot) return;
+            activeTarot.classList.remove('active');
+            document.getElementById('tarot-overlay').classList.remove('active');
+            activeTarot = null;
+        }
+
+        function closeAllTarots() {
+            if(activeTarot) {
+                activeTarot.classList.remove('active');
+                document.getElementById('tarot-overlay').classList.remove('active');
+                activeTarot = null;
+            }
+        }
+
+        function finishTarot() {
+            goToStep('step-tarot', 'step-loading');
+            document.getElementById('loading-text').innerText = "祭司正在凝结高维指引...";
+            
+            setTimeout(() => {
+                goToStep('step-loading', 'step-interpret');
+                setTimeout(() => {
+                    initGenSlider();
+                }, 800);
+            }, 2500);
+        }
+
+        // --- Slider Logic --- //
+        // Reusable functionality fixing the offsetWidth bug
+        function setupSlider(prefix, onSuccess, onProgress, onComplete, onSnapBack) {
+            const thumb = document.getElementById(`${prefix}-thumb`);
+            const track = document.getElementById(`${prefix}-track`);
+            const wrapper = document.getElementById(`${prefix}-wrapper`);
+            const hint = document.getElementById(`${prefix}-hint`);
+            
+            let isDragging = false;
+            let startX = 0;
+            let currentX = 0;
+            let maxTravel = 0;
+
+            const onStart = (e) => {
+                isDragging = true;
+                startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                maxTravel = wrapper.offsetWidth - thumb.offsetWidth - 12;
+                if (maxTravel < 0) maxTravel = 0;
+                
+                thumb.style.transition = 'none';
+                track.style.transition = 'none';
+                if(hint) hint.style.opacity = '0';
+            };
+
+            const onMove = (e) => {
+                if (!isDragging) return;
+                let clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                let deltaX = clientX - startX;
+                
+                if (deltaX < 0) deltaX = 0;
+                if (deltaX > maxTravel) deltaX = maxTravel;
+                
+                currentX = deltaX;
+                thumb.style.transform = `translateX(${currentX}px)`;
+                
+                let progress = maxTravel > 0 ? (currentX / maxTravel) : 0;
+                track.style.width = `${(currentX + 32)}px`;
+                
+                if(onProgress) onProgress(progress);
+            };
+
+            const onEnd = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                
+                if (currentX > maxTravel * 0.75 && maxTravel > 0) {
+                    thumb.style.transition = 'transform 0.4s ease';
+                    track.style.transition = 'width 0.4s ease';
+                    thumb.style.transform = `translateX(${maxTravel}px)`;
+                    track.style.width = '100%';
+                    
+                    if(onSuccess) onSuccess();
+                    if(onComplete) onComplete();
+                } else {
+                    thumb.style.transition = 'transform 0.4s ease';
+                    track.style.transition = 'width 0.4s ease';
+                    if(hint) hint.style.opacity = '1';
+                    
+                    requestAnimationFrame(() => {
+                        thumb.style.transform = `translateX(0px)`;
+                        track.style.width = `0px`;
+                    });
+                    
+                    if(onSnapBack) onSnapBack();
+                }
+            };
+
+            thumb.addEventListener('mousedown', onStart);
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onEnd);
+            
+            thumb.addEventListener('touchstart', onStart, {passive: true});
+            document.addEventListener('touchmove', onMove, {passive: true});
+            document.addEventListener('touchend', onEnd);
+        }
+
+        function initGenSlider() {
+            setupSlider('gen-slider', () => {
+                document.getElementById('gen-slider-wrapper').style.display = 'none';
+                document.getElementById('gen-status-text').style.display = 'block';
+
+                setTimeout(() => {
+                    document.getElementById('gen-status-text').style.display = 'none';
+                    const btn = document.getElementById('btn-enter-dream');
+                    btn.style.display = 'block';
+                    btn.style.animation = 'slideUpFadeIn 0.5s forwards';
+                }, 2500);
+            });
+        }
+
+        function initVisualLogic() {
+            // Slight pan for visual drama
+            setTimeout(() => {
+                document.getElementById('nightmare-img').style.transform = 'scale(1)';
+            }, 100);
+            
+            initVisualSlider();
+            initParticles();
+        }
+
+        function initVisualSlider() {
+            setupSlider('visual-slider', null, (progress) => {
+                const healingImg = document.getElementById('healing-img');
+                const nightmareImg = document.getElementById('nightmare-img');
+                
+                healingImg.style.transition = 'none';
+                healingImg.style.opacity = progress * 0.9;
+                healingImg.style.filter = `brightness(${1.5 - progress * 0.5}) blur(${8 - progress*8}px)`;
+                nightmareImg.style.filter = `saturate(${0.6+progress*0.4}) brightness(${0.7+progress*0.3})`;
+            }, () => {
+                document.getElementById('step-visual').classList.add('transformed');
+                
+                const narrative = document.getElementById('visual-narrative');
+                narrative.style.opacity = 0;
+                setTimeout(() => {
+                    narrative.innerHTML = "「肉身的消亡并非终点，而是光球归位的旅程。」<br><br>不要为现实中的得失感到沉重。这不过是一场随时可以重新选择剧本的高维游戏，而你，一直都是那颗最自由的光。";
+                    narrative.style.opacity = 1;
+                }, 800);
+
+                setTimeout(() => {
+                    document.getElementById('visual-slider-wrapper').style.display = 'none';
+                    const shareBtn = document.getElementById('share-btn'); shareBtn.style.display = 'block';
+                    shareBtn.style.animation = 'slideUpFadeIn 0.8s ease forwards';
+                }, 500);
+            }, () => {
+                const healingImg = document.getElementById('healing-img');
+                healingImg.style.transition = 'opacity 0.6s, filter 0.6s';
+                document.getElementById('nightmare-img').style.filter = `saturate(0.6) contrast(1.2) brightness(0.7)`;
+                requestAnimationFrame(() => { healingImg.style.opacity = 0; });
+            });
+        }
+
+        function initParticles() {
+            const canvas = document.getElementById('particles');
+            const ctx = canvas.getContext('2d');
+            let particlesArray = [];
+            
+            function resize() {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+            
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + 10;
+                    this.size = Math.random() * 2.5 + 0.5;
+                    this.speedY = Math.random() * 1.5 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.opacity = Math.random() * 0.5 + 0.2;
+                }
+                update() {
+                    this.y -= this.speedY;
+                    this.x += this.speedX;
+                    if (this.size > 0.05) this.size -= 0.005;
+                }
+                draw() {
+                    ctx.fillStyle = `rgba(255, 230, 150, ${this.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = "rgba(255, 255, 255, 0.8)";
+                }
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if(document.getElementById('step-visual').classList.contains('transformed')){
+                    if(Math.random() < 0.3) particlesArray.push(new Particle());
+                }
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                    particlesArray[i].draw();
+                    ctx.shadowBlur = 0;
+                    if (particlesArray[i].size <= 0.05 || particlesArray[i].y < 0) {
+                        particlesArray.splice(i, 1); i--;
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+</body>
+</html>
