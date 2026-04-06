@@ -1104,17 +1104,34 @@
         }
 
         function triggerGenImage() {
-            document.getElementById('gen-action-btns').style.display = 'none';
+            const genBtns = document.getElementById('gen-action-btns');
             const chatArea = document.getElementById('chat-area');
-            if (chatArea) chatArea.style.display = 'none';
-            document.getElementById('gen-status-text').style.display = 'block';
+
+            // 淡出当前区域（先清除 forwards 动画锁定，再设置过渡）
+            const fadeTargets = [genBtns, chatArea].filter(el => el && el.style.display !== 'none');
+            fadeTargets.forEach(el => {
+                el.style.animation = 'none';
+                void el.offsetHeight; // 强制 reflow，提交当前 opacity:1 状态
+                el.style.transition = 'opacity 0.35s';
+                el.style.opacity = '0';
+            });
 
             setTimeout(() => {
-                document.getElementById('gen-status-text').style.display = 'none';
-                const btn = document.getElementById('btn-enter-dream');
-                btn.style.display = 'block';
-                btn.style.animation = 'slideUpFadeIn 0.5s forwards';
-            }, 2500);
+                fadeTargets.forEach(el => { el.style.display = 'none'; el.style.opacity = ''; });
+                const statusEl = document.getElementById('gen-status-text');
+                statusEl.style.opacity = '0';
+                statusEl.style.display = 'block';
+                statusEl.style.transition = 'opacity 0.4s';
+                requestAnimationFrame(() => { statusEl.style.opacity = '1'; });
+
+                setTimeout(() => {
+                    statusEl.style.display = 'none';
+                    statusEl.style.opacity = '';
+                    const btn = document.getElementById('btn-enter-dream');
+                    btn.style.display = 'block';
+                    btn.style.animation = 'slideUpFadeIn 0.5s forwards';
+                }, 2500);
+            }, 350);
         }
 
         function initVisualLogic() {
