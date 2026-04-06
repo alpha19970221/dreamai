@@ -900,6 +900,9 @@
                 <button class="btn-manifest" id="share-btn" style="display: none; margin-top: 15px;" onclick="alert('你已释放情绪。')">
                     分享至潜意识社交网络
                 </button>
+                <button class="btn-manifest" id="archive-btn" style="display: none; margin-top: 10px; background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3);" onclick="goToStep('step-visual', 'step-archive')">
+                    📜 梦境封印录
+                </button>
             </div>
         </div>
 
@@ -1167,6 +1170,8 @@
                     document.getElementById('visual-slider-wrapper').style.display = 'none';
                     const shareBtn = document.getElementById('share-btn'); shareBtn.style.display = 'block';
                     shareBtn.style.animation = 'slideUpFadeIn 0.8s ease forwards';
+                    const archiveBtn = document.getElementById('archive-btn'); archiveBtn.style.display = 'block';
+                    archiveBtn.style.animation = 'slideUpFadeIn 0.8s ease 0.15s forwards'; archiveBtn.style.opacity = '0';
                 }, 500);
             }, () => {
                 const healingImg = document.getElementById('healing-img');
