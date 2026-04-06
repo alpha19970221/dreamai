@@ -827,42 +827,55 @@
             </div>
         </div>
 
-        <!-- 1.5 The Archive Page (Dream List) -->
+        <!-- 1.5 The Archive Page (Calendar View) -->
         <div class="view-step" id="step-archive">
-            <div class="nav-back" onclick="goToStep('step-archive', 'step-home')">⟵ 返回</div>
-            <div class="step-title" style="text-align: left; font-size: 1.8rem;">梦境封印录</div>
-            <div class="step-subtitle" style="text-align: left; margin-bottom: 10px;">重新凝视你遗落的潜意识碎片</div>
-            
-            <div class="archive-list">
-                <div class="archive-card" onclick="goToStep('step-archive', 'step-archived-detail')">
-                    <div class="archive-date">2026.04.04</div>
-                    <div class="archive-card-title">高维的机器与光洞</div>
-                    <div class="archive-tags">
-                        <span>#光球</span>
-                        <span>#新生</span>
-                        <span>#高维游戏</span>
-                    </div>
+            <!-- 顶部导航 -->
+            <div class="cal-header">
+                <span class="nav-back" onclick="goToStep('step-archive', 'step-home')" style="margin-bottom:0;">⟵</span>
+                <span class="cal-header-title">梦境封印录</span>
+                <span class="cal-dream-count" id="cal-dream-count"></span>
+            </div>
+
+            <!-- 月份导航 -->
+            <div class="cal-month-nav">
+                <span class="cal-nav-btn" onclick="changeMonth(-1)">‹</span>
+                <span class="cal-month-title" id="cal-month-title"></span>
+                <span class="cal-nav-btn" onclick="changeMonth(1)">›</span>
+            </div>
+
+            <!-- 星期标题行 -->
+            <div class="cal-weekdays">
+                <div class="cal-weekday">日</div>
+                <div class="cal-weekday">一</div>
+                <div class="cal-weekday">二</div>
+                <div class="cal-weekday">三</div>
+                <div class="cal-weekday">四</div>
+                <div class="cal-weekday">五</div>
+                <div class="cal-weekday">六</div>
+            </div>
+
+            <!-- 日历格子（JS 动态渲染） -->
+            <div class="cal-grid" id="cal-grid"></div>
+
+            <!-- 本月计数 -->
+            <div class="cal-count-bar" id="cal-count-bar"></div>
+
+            <!-- 未选中日期时的引导文案 -->
+            <div class="cal-empty-state" id="cal-empty-state">
+                <div class="cal-empty-symbol">◈</div>
+                <div class="cal-empty-text">轻触日历中的日期<br>重新凝视那夜的梦境碎片</div>
+            </div>
+
+            <!-- 底部抽屉（点击有梦日期后滑入） -->
+            <div class="cal-bottom-sheet" id="cal-bottom-sheet">
+                <div class="cal-bs-handle"></div>
+                <div class="cal-bs-date" id="cal-bs-date"></div>
+                <div class="cal-bs-card">
+                    <div class="cal-bs-title" id="cal-bs-title"></div>
+                    <div class="cal-bs-tags" id="cal-bs-tags"></div>
+                    <div class="cal-bs-preview" id="cal-bs-preview"></div>
                 </div>
-                
-                <div class="archive-card">
-                    <div class="archive-date">2026.03.28</div>
-                    <div class="archive-card-title">深海无止境的下坠</div>
-                    <div class="archive-tags">
-                        <span>#失重感</span>
-                        <span>#水</span>
-                        <span>#深海</span>
-                    </div>
-                </div>
-                
-                <div class="archive-card">
-                    <div class="archive-date">2026.03.15</div>
-                    <div class="archive-card-title">在长廊中被追逐</div>
-                    <div class="archive-tags">
-                        <span>#奔跑</span>
-                        <span>#迷宫</span>
-                        <span>#焦虑</span>
-                    </div>
-                </div>
+                <div class="cal-bs-btn" onclick="goToStep('step-archive', 'step-archived-detail')">深入凝视 →</div>
             </div>
         </div>
 
