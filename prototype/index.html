@@ -1038,8 +1038,11 @@
         }
 
         function finishTarot() {
-            // 转场前清空内容，确保 step-interpret 滑入时已是空白
+            // 转场前重置 step-interpret 所有状态
             document.querySelector('#step-interpret .interpret-content').innerHTML = '';
+            document.getElementById('btn-enter-dream').style.display = 'none';
+            document.getElementById('btn-enter-dream').style.animation = '';
+            document.getElementById('gen-status-text').style.display = 'none';
 
             goToStep('step-tarot', 'step-loading');
             document.getElementById('loading-text').innerText = "祭司正在凝结高维指引...";
@@ -1218,6 +1221,17 @@
         }
 
         function initVisualLogic() {
+            // 重置状态（防止二次进入时残留）
+            document.getElementById('share-btn').style.display = 'none';
+            document.getElementById('archive-btn').style.display = 'none';
+            document.getElementById('step-visual').classList.remove('transformed');
+            document.getElementById('visual-slider-wrapper').style.display = '';
+            document.getElementById('visual-slider-wrapper').style.opacity = '';
+            document.getElementById('healing-img').style.opacity = '';
+            document.getElementById('visual-slider-thumb').style.transform = 'translateX(0px)';
+            document.getElementById('visual-slider-track').style.width = '0px';
+            document.getElementById('visual-slider-hint').style.opacity = '1';
+
             // Slight pan for visual drama
             setTimeout(() => {
                 document.getElementById('nightmare-img').style.transform = 'scale(1)';
