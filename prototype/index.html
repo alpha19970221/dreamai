@@ -546,6 +546,22 @@
         }
         .tarot-overlay.active { pointer-events: auto; opacity: 1; }
 
+        /* ── Stream Cursor ── */
+        .stream-cursor {
+            display: inline-block;
+            width: 0.6em;
+            height: 1em;
+            background: rgba(255, 255, 255, 0.85);
+            margin-left: 1px;
+            vertical-align: text-bottom;
+            border-radius: 1px;
+            animation: cursorBlink 0.75s step-end infinite;
+        }
+        @keyframes cursorBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
         /* ── Chat Interface ── */
         #chat-area {
             display: none;
@@ -863,7 +879,7 @@
                 </div>
             </div>
 
-            <div id="gen-action-btns" style="display: flex; gap: 12px; margin-bottom: 8px;">
+            <div id="gen-action-btns" style="display: none; gap: 12px; margin-bottom: 8px;">
                 <button class="btn-manifest" onclick="openChat()" style="flex: 1; font-size: 0.85rem; background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3);">我想继续追问</button>
                 <button class="btn-manifest" onclick="triggerGenImage()" style="flex: 1; font-size: 0.85rem;">生成梦境图</button>
             </div>
@@ -1022,12 +1038,76 @@
         }
 
         function finishTarot() {
+            // 转场前清空内容，确保 step-interpret 滑入时已是空白
+            document.querySelector('#step-interpret .interpret-content').innerHTML = '';
+
             goToStep('step-tarot', 'step-loading');
             document.getElementById('loading-text').innerText = "祭司正在凝结高维指引...";
-            
+
             setTimeout(() => {
                 goToStep('step-loading', 'step-interpret');
+                setTimeout(streamInterpretContent, 800);
             }, 2500);
+        }
+
+        function streamInterpretContent() {
+            const contentEl = document.querySelector('#step-interpret .interpret-content');
+            // 硬编码最终 HTML，无多余空白节点
+            var finalHTML =
+                '<p>「你梦见世界是高维的机器，死亡只是穿过了光洞，化为纯净的光球...」</p>' +
+                '<p>在传统的《周公解梦》中，梦见"死亡"与"穿过洞穴"绝非不祥，而是极为典型的<strong>「新生与蜕变之兆」</strong>。它预示着你即将在现实中告别某个受困的旧周期，迎来一次深刻的认知觉醒。</p>' +
+                '<p>结合潜意识心理学，那个光球汇聚的"纯白空间"与"体验人生的屏幕"，折射出你拥有极其广阔的俯视视角。现实中的纷纷扰扰对你而言，正逐渐变成一场可以随意浏览的深层游戏。你已经开始从焦虑中抽离，成为了一个清醒的<strong>「旁观者」</strong>。</p>';
+
+            const paras = [
+                '「你梦见世界是高维的机器，死亡只是穿过了光洞，化为纯净的光球...」',
+                '在传统的《周公解梦》中，梦见"死亡"与"穿过洞穴"绝非不祥，而是极为典型的「新生与蜕变之兆」。它预示着你即将在现实中告别某个受困的旧周期，迎来一次深刻的认知觉醒。',
+                '结合潜意识心理学，那个光球汇聚的"纯白空间"与"体验人生的屏幕"，折射出你拥有极其广阔的俯视视角。现实中的纷纷扰扰对你而言，正逐渐变成一场可以随意浏览的深层游戏。你已经开始从焦虑中抽离，成为了一个清醒的「旁观者」。'
+            ];
+
+            var actionBtns = document.getElementById('gen-action-btns');
+
+            // 清空内容，重建空段落 + text node
+            contentEl.innerHTML = '';
+            const tns = paras.map(function(text) {
+                var p = document.createElement('p');
+                var tn = document.createTextNode('');
+                p.appendChild(tn);
+                contentEl.appendChild(p);
+                return tn;
+            });
+
+            // 光标插入第一段末尾
+            var cursor = document.createElement('span');
+            cursor.className = 'stream-cursor';
+            contentEl.children[0].appendChild(cursor);
+
+            // 展平字符队列
+            var chars = [];
+            paras.forEach(function(text, pi) {
+                text.split('').forEach(function(ch) { chars.push({ ch: ch, pi: pi }); });
+            });
+
+            var idx = 0, curPi = 0;
+
+            function tick() {
+                if (idx >= chars.length) {
+                    cursor.remove();
+                    contentEl.innerHTML = finalHTML;
+                    actionBtns.style.display = 'flex';
+                    actionBtns.style.animation = 'slideUpFadeIn 0.5s forwards';
+                    return;
+                }
+                var item = chars[idx];
+                if (item.pi !== curPi) {
+                    curPi = item.pi;
+                    contentEl.children[curPi].appendChild(cursor);
+                }
+                tns[item.pi].nodeValue += item.ch;
+                idx++;
+                setTimeout(tick, 20);
+            }
+
+            tick(); // 立即开始，无需额外延迟
         }
 
         // --- Slider Logic --- //
