@@ -453,15 +453,135 @@
         .nav-back { font-size: 1rem; color: rgba(255,255,255,0.6); cursor: pointer; margin-bottom: 20px; transition: color 0.3s ease; display: inline-block; }
         .nav-back:hover { color: #fff; }
 
-        .archive-list { display: flex; flex-direction: column; gap: 16px; padding-bottom: 30px; margin-top: 20px;}
-        .archive-card {
-            background: linear-gradient(145deg, rgba(30, 30, 45, 0.4), rgba(15, 15, 25, 0.6));
-            border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 20px;
-            cursor: pointer; transition: transform 0.3s ease, border-color 0.3s ease;
+        /* --- 日历视图 (Calendar) --- */
+        #step-archive { padding: 50px 0 0; overflow: hidden !important; }
+
+        .cal-header {
+            display: flex; align-items: center; gap: 8px;
+            padding: 0 20px 12px; border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .archive-card:hover { transform: translateY(-3px); border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .cal-header-title {
+            font-family: 'Noto Serif SC', serif; font-size: 1.1rem; color: #fff;
+        }
+        .cal-dream-count {
+            margin-left: auto; font-size: 0.72rem; color: rgba(139,92,246,0.7);
+        }
+
+        .cal-month-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 28px 8px;
+        }
+        .cal-nav-btn {
+            font-size: 1.3rem; color: rgba(255,255,255,0.3); cursor: pointer;
+            padding: 4px 10px; transition: color 0.2s;
+        }
+        .cal-nav-btn:hover { color: #a78bfa; }
+        .cal-month-title {
+            font-family: 'Noto Serif SC', serif; font-size: 1rem; color: #e2d9f3;
+        }
+
+        .cal-weekdays {
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            padding: 0 12px; margin-bottom: 4px;
+        }
+        .cal-weekday {
+            text-align: center; font-size: 0.68rem; color: rgba(255,255,255,0.2); padding: 4px 0;
+        }
+
+        .cal-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            gap: 4px; padding: 0 12px;
+        }
+        .cal-day {
+            aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; color: rgba(255,255,255,0.3); border-radius: 50%;
+            cursor: default; position: relative; transition: background 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .cal-day.today {
+            color: rgba(255,255,255,0.75);
+            border: 1px solid rgba(139,92,246,0.4);
+        }
+        .cal-day.has-dream {
+            color: #e2d9f3; cursor: pointer;
+        }
+        .cal-day.has-dream::before {
+            content: '◈'; position: absolute;
+            font-size: 1.8rem; color: rgba(139,92,246,0.22);
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            pointer-events: none; line-height: 1;
+        }
+        .cal-day.has-dream:hover { background: rgba(139,92,246,0.12); }
+        .cal-day.selected {
+            background: rgba(139,92,246,0.45) !important;
+            color: #fff !important;
+            box-shadow: 0 0 12px rgba(139,92,246,0.4);
+        }
+        .cal-day.selected::before { display: none; }
+
+        .cal-count-bar {
+            padding: 8px 16px 0; font-size: 0.72rem;
+            color: rgba(139,92,246,0.55); text-align: right;
+        }
+
+        .cal-empty-state {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            opacity: 0.45; padding: 0 24px; pointer-events: none;
+        }
+        .cal-empty-symbol { font-size: 2.5rem; color: rgba(139,92,246,0.4); margin-bottom: 12px; }
+        .cal-empty-text {
+            font-family: 'Noto Serif SC', serif; font-size: 0.85rem;
+            color: rgba(255,255,255,0.4); text-align: center; line-height: 2;
+        }
+
+        /* 底部抽屉 */
+        .cal-bottom-sheet {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(160deg, rgba(22,16,42,0.98), rgba(8,8,20,0.99));
+            border-top: 1px solid rgba(139,92,246,0.25);
+            border-radius: 22px 22px 0 0;
+            padding: 10px 20px 36px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.5);
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 20;
+        }
+        .cal-bottom-sheet.open { transform: translateY(0); }
+        .cal-bs-handle {
+            width: 36px; height: 3px; background: rgba(255,255,255,0.12);
+            border-radius: 2px; margin: 0 auto 14px;
+        }
+        .cal-bs-date {
+            font-size: 0.72rem; color: rgba(139,92,246,0.8);
+            letter-spacing: 1px; margin-bottom: 10px; text-align: center;
+        }
+        .cal-bs-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px; padding: 14px 16px; margin-bottom: 14px;
+        }
+        .cal-bs-title {
+            font-family: 'Noto Serif SC', serif; font-size: 1.05rem; color: #fff; margin-bottom: 8px;
+        }
+        .cal-bs-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+        .cal-bs-tag {
+            font-size: 0.72rem; background: rgba(255,255,255,0.07);
+            padding: 3px 10px; border-radius: 10px; color: rgba(255,255,255,0.6);
+        }
+        .cal-bs-preview {
+            font-size: 0.8rem; color: rgba(255,255,255,0.38); line-height: 1.7;
+        }
+        .cal-bs-btn {
+            display: block; text-align: center;
+            font-family: 'Noto Serif SC', serif; font-size: 0.9rem;
+            background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.35);
+            border-radius: 14px; padding: 12px; color: #a78bfa; cursor: pointer;
+            transition: background 0.2s;
+        }
+        .cal-bs-btn:hover { background: rgba(139,92,246,0.25); }
+
         .archive-date { font-size: 0.8rem; color: #a78bfa; margin-bottom: 8px; letter-spacing: 1px; }
-        .archive-card-title { font-family: 'Noto Serif SC', serif; font-size: 1.1rem; color: #fff; margin-bottom: 12px; }
         .archive-tags { display: flex; gap: 8px; flex-wrap: wrap; }
         .archive-tags span { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 12px; color: rgba(255,255,255,0.8); }
 
