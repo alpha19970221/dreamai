@@ -889,15 +889,21 @@
                 <span class="cal-dream-count" id="cal-dream-count"></span>
             </div>
 
+            <!-- 视图切换标签 -->
+            <div class="cal-tab-bar">
+                <div class="cal-tab active" id="tab-calendar" onclick="switchCalView('calendar')">📅 日历</div>
+                <div class="cal-tab" id="tab-cards" onclick="switchCalView('cards')">🃏 卡册</div>
+            </div>
+
             <!-- 月份导航 -->
-            <div class="cal-month-nav">
+            <div class="cal-month-nav" id="cal-month-nav">
                 <span class="cal-nav-btn" onclick="changeMonth(-1)">‹</span>
                 <span class="cal-month-title" id="cal-month-title"></span>
                 <span class="cal-nav-btn" onclick="changeMonth(1)">›</span>
             </div>
 
             <!-- 星期标题行 -->
-            <div class="cal-weekdays">
+            <div class="cal-weekdays" id="cal-weekdays">
                 <div class="cal-weekday">日</div>
                 <div class="cal-weekday">一</div>
                 <div class="cal-weekday">二</div>
@@ -918,6 +924,9 @@
                 <div class="cal-empty-symbol">◈</div>
                 <div class="cal-empty-text">轻触日历中的日期<br>重新凝视那夜的梦境碎片</div>
             </div>
+
+            <!-- 卡册视图（默认隐藏） -->
+            <div class="cal-card-list" id="cal-card-list" style="display:none;"></div>
 
             <!-- 底部抽屉（点击有梦日期后滑入） -->
             <div class="cal-bottom-sheet" id="cal-bottom-sheet">
