@@ -1583,6 +1583,112 @@
                 preview: '长廊的尽头永远看不见，脚步声在身后越来越近，转角处永远是另一段长廊…'
             }
         ];
+
+        // --- 日历视图逻辑 ---
+        let calState = { year: new Date().getFullYear(), month: new Date().getMonth() };
+
+        function initCalendar() {
+            calState = { year: new Date().getFullYear(), month: new Date().getMonth() };
+            renderCalendar(calState.year, calState.month);
+            hideCalBottomSheet();
+        }
+
+        function renderCalendar(year, month) {
+            const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+            document.getElementById('cal-month-title').textContent = year + '年 ' + monthNames[month];
+
+            const monthStr = year + '-' + String(month + 1).padStart(2, '0');
+            const monthDreams = dreams.filter(function(d) { return d.date.startsWith(monthStr); });
+            const countBar = document.getElementById('cal-count-bar');
+            countBar.textContent = monthDreams.length > 0 ? '本月 ' + monthDreams.length + ' 个封印 ·' : '';
+
+            const dreamDateSet = new Set(dreams.map(function(d) { return d.date; }));
+            const today = new Date();
+            const firstWeekday = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            const grid = document.getElementById('cal-grid');
+            grid.innerHTML = '';
+
+            // 月首空白格
+            for (let i = 0; i < firstWeekday; i++) {
+                const blank = document.createElement('div');
+                blank.className = 'cal-day';
+                grid.appendChild(blank);
+            }
+
+            // 日期格
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateStr = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+                const cell = document.createElement('div');
+                cell.className = 'cal-day';
+                cell.textContent = d;
+
+                const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === d;
+                if (isToday) cell.classList.add('today');
+
+                if (dreamDateSet.has(dateStr)) {
+                    cell.classList.add('has-dream');
+                    cell.dataset.date = dateStr;
+                    (function(ds, el) {
+                        el.addEventListener('click', function() { selectCalDay(ds, el); });
+                    })(dateStr, cell);
+                } else {
+                    cell.addEventListener('click', hideCalBottomSheet);
+                }
+
+                grid.appendChild(cell);
+            }
+
+            hideCalBottomSheet();
+        }
+
+        function changeMonth(delta) {
+            calState.month += delta;
+            if (calState.month > 11) { calState.month = 0; calState.year++; }
+            if (calState.month < 0)  { calState.month = 11; calState.year--; }
+            renderCalendar(calState.year, calState.month);
+        }
+
+        function selectCalDay(dateStr, clickedCell) {
+            // 清除之前的选中状态
+            document.querySelectorAll('#cal-grid .cal-day.selected').forEach(function(el) {
+                el.classList.remove('selected');
+            });
+            clickedCell.classList.add('selected');
+
+            const dream = dreams.find(function(d) { return d.date === dateStr; });
+            if (!dream) return;
+
+            // 格式化日期文字
+            const parts = dateStr.split('-');
+            const y = parseInt(parts[0]), m = parseInt(parts[1]), day = parseInt(parts[2]);
+            const weekLabels = ['日','一','二','三','四','五','六'];
+            const weekLabel = weekLabels[new Date(y, m - 1, day).getDay()];
+            document.getElementById('cal-bs-date').textContent =
+                '· ' + y + '年 ' + m + '月 ' + day + '日 · 周' + weekLabel + ' ·';
+
+            document.getElementById('cal-bs-title').textContent = dream.title;
+
+            const tagsEl = document.getElementById('cal-bs-tags');
+            tagsEl.innerHTML = dream.tags.map(function(t) {
+                return '<span class="cal-bs-tag">#' + t + '</span>';
+            }).join('');
+
+            document.getElementById('cal-bs-preview').textContent = dream.preview;
+
+            // 显示底部抽屉
+            document.getElementById('cal-empty-state').style.display = 'none';
+            document.getElementById('cal-bottom-sheet').classList.add('open');
+        }
+
+        function hideCalBottomSheet() {
+            document.querySelectorAll('#cal-grid .cal-day.selected').forEach(function(el) {
+                el.classList.remove('selected');
+            });
+            document.getElementById('cal-empty-state').style.display = '';
+            document.getElementById('cal-bottom-sheet').classList.remove('open');
+        }
     </script>
 </body>
 </html>
