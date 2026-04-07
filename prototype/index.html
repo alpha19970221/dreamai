@@ -1069,6 +1069,8 @@
             
             setTimeout(() => {
                 current.classList.remove('active');
+                next.style.opacity = '';
+                next.style.transform = '';
                 next.classList.add('active');
             }, 600);
         }
