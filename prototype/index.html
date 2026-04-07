@@ -648,10 +648,10 @@
 
         /* --- Tarot Interactive Phase --- */
         .tarot-container {
-            display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 30px;
+            display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 15px; margin-top: 30px;
         }
         .tarot-card {
-            width: 90px; height: 160px; background: rgba(20, 15, 30, 0.8);
+            width: 90px; height: 180px; background: rgba(20, 15, 30, 0.8);
             border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 0 15px rgba(139, 92, 246, 0.1);
             cursor: pointer; position: relative; transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -673,8 +673,8 @@
         }
         
         .tarot-card-title {
-            color: rgba(255,255,255,0.8); font-size: 0.95rem; font-family: 'Noto Serif SC', serif;
-            text-align: center; margin-top: 15px; writing-mode: vertical-rl; letter-spacing: 4px;
+            color: rgba(255,255,255,0.8); font-size: 0.9rem; font-family: 'Noto Serif SC', serif;
+            text-align: center; margin-top: 12px; writing-mode: vertical-rl; letter-spacing: 3px;
         }
         .tarot-icon { font-size: 1.8rem; text-shadow: 0 0 15px rgba(139, 92, 246, 0.9); z-index: 2; }
         
@@ -1018,28 +1018,46 @@
             
             <div class="tarot-container" id="tarot-deck">
                 <div class="tarot-card" onclick="openTarot(this)">
-                    <div class="tarot-icon">👁️</div>
-                    <div class="tarot-card-title">情绪回响</div>
+                    <div class="tarot-icon">🌊</div>
+                    <div class="tarot-card-title">情感基调</div>
                     <div class="tarot-input-container">
-                        <textarea class="tarot-textarea" placeholder="这股能量让你在那一刻感受到了什么？是恐惧、解脱，亦或是某种深沉的宁静..."></textarea>
-                        <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
-                    </div>
-                </div>
-                
-                <div class="tarot-card" onclick="openTarot(this)">
-                    <div class="tarot-icon">⛓️</div>
-                    <div class="tarot-card-title">现实羁绊</div>
-                    <div class="tarot-input-container">
-                        <textarea class="tarot-textarea" placeholder="近期现实中，有什么被困住的局面让你产生了类似的剥离感？你想起了什么人或事？"></textarea>
+                        <textarea class="tarot-textarea" placeholder="醒来时，这个梦留给你的整体感觉是什么？沉重、困惑、温暖，还是别的什么..."></textarea>
                         <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
                     </div>
                 </div>
 
                 <div class="tarot-card" onclick="openTarot(this)">
-                    <div class="tarot-icon">🕳️</div>
-                    <div class="tarot-card-title">未解之惧</div>
+                    <div class="tarot-icon">🐕</div>
+                    <div class="tarot-card-title">现实中的狗</div>
                     <div class="tarot-input-container">
-                        <textarea class="tarot-textarea" placeholder="在这个空间的倒影里，你潜意识最害怕面对，或最不想失去的是什么？"></textarea>
+                        <textarea class="tarot-textarea" placeholder="现实中那只狗是什么样的？它现在在哪里？你们之间有什么故事..."></textarea>
+                        <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
+                    </div>
+                </div>
+
+                <div class="tarot-card" onclick="openTarot(this)">
+                    <div class="tarot-icon">🏠</div>
+                    <div class="tarot-card-title">那家人的房子和狗</div>
+                    <div class="tarot-input-container">
+                        <textarea class="tarot-textarea" placeholder="梦里那家人是谁？那只不吃狗粮的狗，给你留下了什么印象..."></textarea>
+                        <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
+                    </div>
+                </div>
+
+                <div class="tarot-card" onclick="openTarot(this)">
+                    <div class="tarot-icon">🌀</div>
+                    <div class="tarot-card-title">自由联想</div>
+                    <div class="tarot-input-container">
+                        <textarea class="tarot-textarea" placeholder="看到"一模一样的另一只小狗"，你第一个想到的是什么？不用解释，随手写下..."></textarea>
+                        <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
+                    </div>
+                </div>
+
+                <div class="tarot-card" onclick="openTarot(this)">
+                    <div class="tarot-icon">🌑</div>
+                    <div class="tarot-card-title">近期困扰</div>
+                    <div class="tarot-input-container">
+                        <textarea class="tarot-textarea" placeholder="最近生活或工作中，有什么事情让你感到困住了，或找不到出口..."></textarea>
                         <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
                     </div>
                 </div>
@@ -1053,12 +1071,30 @@
 
         <!-- 4. Interpret & Generate Image -->
         <div class="view-step" id="step-interpret">
-            <div class="step-title" style="text-align: left; font-size: 1.8rem; margin-bottom: 30px;">指引：高维的游戏</div>
-            
+            <div class="step-title" style="text-align: left; font-size: 1.8rem; margin-bottom: 30px;">指引：逝去的小狗</div>
+
             <div class="interpret-content">
-                <p>「你梦见世界是高维的机器，死亡只是穿过了光洞，化为纯净的光球...」</p>
-                <p>在传统的《周公解梦》中，梦见“死亡”与“穿过洞穴”绝非不祥，而是极为典型的<strong>「新生与蜕变之兆」</strong>。它预示着你即将在现实中告别某个受困的旧周期，迎来一次深刻的认知觉醒。</p>
-                <p>结合潜意识心理学，那个光球汇聚的“纯白空间”与“体验人生的屏幕”，折射出你拥有极其广阔的俯视视角。现实中的纷纷扰扰对你而言，正逐渐变成一场可以随意浏览的深层游戏。你已经开始从焦虑中抽离，成为了一个清醒的<strong>「旁观者」</strong>。</p>
+                <p><strong>一、狗与狗粮：您“想要给予”的自我象征</strong></p>
+                <p><strong>死去的小狗</strong>：代表您已经失去的、无法再接受您给予的对象。可能是您真正关心过的某个人、某段关系，也可能是您过去某个成功的“用户需求”（就像您事业上曾经顺利满足过的那类人）。</p>
+                <p><strong>狗粮</strong>：象征您手中拥有的、您认为有价值且饱含爱意的东西——具体到现实，很可能就是您<strong>事业上想提供的服务或产品</strong>。您说“没有特别的回忆”，反而说明狗粮本身不是重点，<strong>“喂”这个动作</strong>才是重点：您想给予，想被需要。</p>
+                <p><strong>“我牵着他”</strong>：逝去的小狗被您牵着，说明您并未真正放下。它仍被您带在身边，参与您当前的行为——这对应了现实：您可能仍在用过去满足“某类用户”的思路，去寻找现在的用户。</p>
+                <p><strong>二、邻居的房子与不吃的狗：被拒绝的投射</strong></p>
+                <p><strong>邻居</strong>：弗洛伊德常将“邻居”视为<strong>社交世界中与自己相似但不同的他人</strong>。邻居的狗，则是<strong>潜在的用户、客户，或您希望帮助的某个群体</strong>。</p>
+                <p><strong>它不吃您的狗粮</strong>：这是梦最直白的受挫情节。对应您现实中的核心困扰——“找不到用户”，或者说，<strong>您把东西递过去，对方不接收</strong>。梦没有显示邻居的狗是厌恶还是冷漠，只是“不吃”——这很像市场反馈中的“没需求”，而非负面攻击。</p>
+                <p><strong>三、“另一只一模一样的小狗”：最关键的伪装</strong></p>
+                <p>这是梦最精彩也最矛盾的地方。您说“我只有一条狗”，但梦里出现了“另一只小狗”，并且<strong>长得和死去的一模一样</strong>。在弗洛伊德看来，这是典型的<strong>“分身”或“替代形成”</strong>。它的作用是：<strong>在不承认逝者已去的前提下，创造一个可以继续接收您给予的对象</strong>。</p>
+                <p>为什么它会一模一样？因为您内心真正渴望喂给的，<strong>依然是原来的那只狗</strong>。但您也知道它死了，所以无意识制造了一个“活着的复制品”。这个复制品不是真的，所以您会困惑；但它长得一样，所以您能继续“喂”下去。</p>
+                <p>这里藏着一个更深的自我安慰：您把狗粮喂给了“另一只小狗”，意味着您<strong>允许自己把原本要给逝者的爱，投注给一个相似的新对象</strong>。但梦的困惑感提醒您：您还没有真正准备好接受“它不再是它”这个事实。</p>
+                <p><strong>四、“第一次见面”的联想与事业困境的链接</strong></p>
+                <p>“第一次见面”代表<strong>美好的开端、彼此确认的那一刻</strong>——需求与满足第一次相遇。那是您事业上曾经找到用户时的兴奋感，也是您与逝去小狗之间纯粹的情感连接。而现实中的“找不到用户”，恰恰是<strong>无法开启任何新的“第一次见面”</strong>。</p>
+                <p>梦的逻辑链条：<strong>现实</strong>：找不到愿意接受的人/用户 → <strong>梦</strong>：邻居的狗不吃 → <strong>梦的补救</strong>：创造一只一模一样的替身狗，让它吃 → <strong>但您内心知道</strong>：那是假的，所以困惑。</p>
+                <p><strong>五、为什么是“两只狗”而不是一只？</strong></p>
+                <p>因为您只有一条狗，所以“另一只”是虚构的。这个虚构揭示了您的<strong>两难处境</strong>：您不愿意把狗粮（价值/产品）给一个完全陌生的对象（邻居的狗不接受，暗示那些潜在用户“不是您想给的人”）。您也无法再给原来的对象（狗已死）。于是您创造了一个<strong>介乎于过去与未来之间的幻象</strong>——像过去一样，但不是过去。</p>
+                <p>这正是您事业困境的心理投影：<strong>您怀念过去那种“需求明确、用户匹配”的状态，不愿意或不知道如何为一个完全陌生的新用户设计价值</strong>。您想找的用户，其实是“过去的用户的影子”。</p>
+                <p><strong>梦的总结与醒后困惑的意义</strong></p>
+                <p>您醒后感到的“困惑”，不是病态的，而是<strong>一种健康的矛盾信号</strong>。您的无意识在说：</p>
+                <p>「我知道我想要什么（给予并被人需要），我也知道我遇到了阻碍（没人吃我的粮）。我甚至为自己创造了一个完美的接收者（另一只一样的狗），但我骗不了自己——它只是看起来像，并不是它。」</p>
+                <p>这个梦不是噩梦，也不是美梦，而是一个<strong>诚实的工作梦</strong>。它没有直接满足“找到用户”的愿望，而是暴露了您在愿望与现实之间的心理操作。</p>
             </div>
 
             <div style="flex-grow: 1;"></div>
@@ -1256,16 +1292,33 @@
             const contentEl = document.querySelector('#step-interpret .interpret-content');
             // 硬编码最终 HTML，无多余空白节点
             var finalHTML =
-                '<p>「你梦见世界是高维的机器，死亡只是穿过了光洞，化为纯净的光球...」</p>' +
-                '<p>在传统的《周公解梦》中，梦见"死亡"与"穿过洞穴"绝非不祥，而是极为典型的<strong>「新生与蜕变之兆」</strong>。它预示着你即将在现实中告别某个受困的旧周期，迎来一次深刻的认知觉醒。</p>' +
-                '<p>结合潜意识心理学，那个光球汇聚的"纯白空间"与"体验人生的屏幕"，折射出你拥有极其广阔的俯视视角。现实中的纷纷扰扰对你而言，正逐渐变成一场可以随意浏览的深层游戏。你已经开始从焦虑中抽离，成为了一个清醒的<strong>「旁观者」</strong>。</p>';
+                '<p><strong>一、狗与狗粮：您“想要给予”的自我象征</strong></p>' +
+                '<p><strong>死去的小狗</strong>：代表您已经失去的、无法再接受您给予的对象。可能是您真正关心过的某个人、某段关系，也可能是您过去某个成功的“用户需求”（就像您事业上曾经顺利满足过的那类人）。</p>' +
+                '<p><strong>狗粮</strong>：象征您手中拥有的、您认为有价值且饱含爱意的东西——具体到现实，很可能就是您<strong>事业上想提供的服务或产品</strong>。您说“没有特别的回忆”，反而说明狗粮本身不是重点，<strong>“喂”这个动作</strong>才是重点：您想给予，想被需要。</p>' +
+                '<p><strong>“我牵着他”</strong>：逝去的小狗被您牵着，说明您并未真正放下。它仍被您带在身边，参与您当前的行为——这对应了现实：您可能仍在用过去满足“某类用户”的思路，去寻找现在的用户。</p>' +
+                '<p><strong>二、邻居的房子与不吃的狗：被拒绝的投射</strong></p>' +
+                '<p><strong>邻居</strong>：弗洛伊德常将“邻居”视为<strong>社交世界中与自己相似但不同的他人</strong>。邻居的狗，则是<strong>潜在的用户、客户，或您希望帮助的某个群体</strong>。</p>' +
+                '<p><strong>它不吃您的狗粮</strong>：这是梦最直白的受挫情节。对应您现实中的核心困扰——“找不到用户”，或者说，<strong>您把东西递过去，对方不接收</strong>。梦没有显示邻居的狗是厌恶还是冷漠，只是“不吃”——这很像市场反馈中的“没需求”，而非负面攻击。</p>' +
+                '<p><strong>三、“另一只一模一样的小狗”：最关键的伪装</strong></p>' +
+                '<p>这是梦最精彩也最矛盾的地方。您说“我只有一条狗”，但梦里出现了“另一只小狗”，并且<strong>长得和死去的一模一样</strong>。在弗洛伊德看来，这是典型的<strong>“分身”或“替代形成”</strong>。它的作用是：<strong>在不承认逝者已去的前提下，创造一个可以继续接收您给予的对象</strong>。</p>' +
+                '<p>为什么它会一模一样？因为您内心真正渴望喂给的，<strong>依然是原来的那只狗</strong>。但您也知道它死了，所以无意识制造了一个“活着的复制品”。这个复制品不是真的，所以您会困惑；但它长得一样，所以您能继续“喂”下去。</p>' +
+                '<p>这里藏着一个更深的自我安慰：您把狗粮喂给了“另一只小狗”，意味着您<strong>允许自己把原本要给逝者的爱，投注给一个相似的新对象</strong>。但梦的困惑感提醒您：您还没有真正准备好接受“它不再是它”这个事实。</p>' +
+                '<p><strong>四、“第一次见面”的联想与事业困境的链接</strong></p>' +
+                '<p>“第一次见面”代表<strong>美好的开端、彼此确认的那一刻</strong>——需求与满足第一次相遇。那是您事业上曾经找到用户时的兴奋感，也是您与逝去小狗之间纯粹的情感连接。而现实中的“找不到用户”，恰恰是<strong>无法开启任何新的“第一次见面”</strong>。</p>' +
+                '<p>梦的逻辑链条：<strong>现实</strong>：找不到愿意接受的人/用户 → <strong>梦</strong>：邻居的狗不吃 → <strong>梦的补救</strong>：创造一只一模一样的替身狗，让它吃 → <strong>但您内心知道</strong>：那是假的，所以困惑。</p>' +
+                '<p><strong>五、为什么是“两只狗”而不是一只？</strong></p>' +
+                '<p>因为您只有一条狗，所以“另一只”是虚构的。这个虚构揭示了您的<strong>两难处境</strong>：您不愿意把狗粮（价值/产品）给一个完全陌生的对象（邻居的狗不接受，暗示那些潜在用户“不是您想给的人”）。您也无法再给原来的对象（狗已死）。于是您创造了一个<strong>介乎于过去与未来之间的幻象</strong>——像过去一样，但不是过去。</p>' +
+                '<p>这正是您事业困境的心理投影：<strong>您怀念过去那种“需求明确、用户匹配”的状态，不愿意或不知道如何为一个完全陌生的新用户设计价值</strong>。您想找的用户，其实是“过去的用户的影子”。</p>' +
+                '<p><strong>梦的总结与醒后困惑的意义</strong></p>' +
+                '<p>您醒后感到的“困惑”，不是病态的，而是<strong>一种健康的矛盾信号</strong>。您的无意识在说：</p>' +
+                '<p>「我知道我想要什么（给予并被人需要），我也知道我遇到了阻碍（没人吃我的粮）。我甚至为自己创造了一个完美的接收者（另一只一样的狗），但我骗不了自己——它只是看起来像，并不是它。」</p>' +
+                '<p>这个梦不是噩梦，也不是美梦，而是一个<strong>诚实的工作梦</strong>。它没有直接满足“找到用户”的愿望，而是暴露了您在愿望与现实之间的心理操作。</p>';
 
             const paras = [
-                '「你梦见世界是高维的机器，死亡只是穿过了光洞，化为纯净的光球...」',
-                '在传统的《周公解梦》中，梦见"死亡"与"穿过洞穴"绝非不祥，而是极为典型的「新生与蜕变之兆」。它预示着你即将在现实中告别某个受困的旧周期，迎来一次深刻的认知觉醒。',
-                '结合潜意识心理学，那个光球汇聚的"纯白空间"与"体验人生的屏幕"，折射出你拥有极其广阔的俯视视角。现实中的纷纷扰扰对你而言，正逐渐变成一场可以随意浏览的深层游戏。你已经开始从焦虑中抽离，成为了一个清醒的「旁观者」。'
+                '您醒后感到的“困惑”，不是病态的，而是一种健康的矛盾信号。您的无意识在说：',
+                '「我知道我想要什么（给予并被人需要），我也知道我遇到了阻碍（没人吃我的粮）。我甚至为自己创造了一个完美的接收者，但我骗不了自己——它只是看起来像，并不是它。」',
+                '这个梦不是噩梦，也不是美梦，而是一个诚实的工作梦。它没有直接满足“找到用户”的愿望，而是暴露了您在愿望与现实之间的心理操作。'
             ];
-
             var actionBtns = document.getElementById('gen-action-btns');
 
             // 清空内容，重建空段落 + text node
