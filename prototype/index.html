@@ -875,6 +875,7 @@
                     <div class="cal-bs-tags" id="cal-bs-tags"></div>
                     <div class="cal-bs-preview" id="cal-bs-preview"></div>
                 </div>
+                <!-- 底部抽屉内按钮，空间受限，以 .cal-bs-btn 代替 .btn-manifest 保持视觉一致性 -->
                 <div class="cal-bs-btn" onclick="goToStep('step-archive', 'step-archived-detail')">深入凝视 →</div>
             </div>
         </div>
@@ -1639,7 +1640,6 @@
                 grid.appendChild(cell);
             }
 
-            hideCalBottomSheet();
         }
 
         function changeMonth(delta) {
@@ -1647,6 +1647,7 @@
             if (calState.month > 11) { calState.month = 0; calState.year++; }
             if (calState.month < 0)  { calState.month = 11; calState.year--; }
             renderCalendar(calState.year, calState.month);
+            hideCalBottomSheet();
         }
 
         function selectCalDay(dateStr, clickedCell) {
@@ -1685,7 +1686,7 @@
             document.querySelectorAll('#cal-grid .cal-day.selected').forEach(function(el) {
                 el.classList.remove('selected');
             });
-            document.getElementById('cal-empty-state').style.display = '';
+            document.getElementById('cal-empty-state').style.display = 'flex';
             document.getElementById('cal-bottom-sheet').classList.remove('open');
         }
     </script>
