@@ -459,9 +459,11 @@
         .cal-header {
             display: flex; align-items: center; gap: 8px;
             padding: 0 20px 12px; border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: relative;
         }
         .cal-header-title {
             font-family: 'Noto Serif SC', serif; font-size: 1.1rem; color: #fff;
+            position: absolute; left: 50%; transform: translateX(-50%);
         }
         .cal-dream-count {
             margin-left: auto; font-size: 0.72rem; color: rgba(139,92,246,0.7);
@@ -581,6 +583,55 @@
             transition: background 0.2s;
         }
         .cal-bs-btn:hover { background: rgba(139,92,246,0.25); }
+
+        /* Tab 切换栏 */
+        .cal-tab-bar {
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            flex-shrink: 0;
+        }
+        .cal-tab {
+            flex: 1; text-align: center; padding: 10px 0;
+            font-size: 0.82rem; color: rgba(255,255,255,0.3);
+            cursor: pointer; transition: color 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        .cal-tab.active {
+            color: #a78bfa;
+            border-bottom: 2px solid #a78bfa;
+        }
+
+        /* 卡册列表 */
+        .cal-card-list {
+            flex: 1; overflow-y: auto;
+            padding: 12px 20px;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .cal-card-item {
+            display: flex; align-items: flex-start; gap: 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(139,92,246,0.15);
+            border-radius: 12px; padding: 14px 16px;
+            cursor: pointer; transition: background 0.2s;
+            flex-shrink: 0;
+        }
+        .cal-card-item:hover { background: rgba(139,92,246,0.08); }
+        .cal-card-rune {
+            font-size: 1.4rem; color: rgba(139,92,246,0.4);
+            line-height: 1; flex-shrink: 0; margin-top: 2px;
+        }
+        .cal-card-body { flex: 1; min-width: 0; }
+        .cal-card-date {
+            font-size: 0.7rem; color: rgba(139,92,246,0.6); margin-bottom: 4px;
+        }
+        .cal-card-title {
+            font-family: 'Noto Serif SC', serif; font-size: 1rem;
+            color: #fff; margin-bottom: 4px;
+        }
+        .cal-card-preview {
+            font-size: 0.78rem; color: rgba(255,255,255,0.35);
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
 
         .archive-date { font-size: 0.8rem; color: #a78bfa; margin-bottom: 8px; letter-spacing: 1px; }
         .archive-tags { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -824,7 +875,7 @@
             <!-- 考古模式入口 -->
             <div class="archive-btn" onclick="goToStep('step-home', 'step-archive'); initCalendar();">
                 <span style="font-size: 1.1rem;">📜</span>
-                <span class="archive-text">梦境封印录</span>
+                <span class="archive-text">梦境回忆录</span>
             </div>
         </div>
 
@@ -833,7 +884,7 @@
             <!-- 顶部导航 -->
             <div class="cal-header">
                 <span class="nav-back" onclick="goToStep('step-archive', 'step-home')" style="margin-bottom:0; padding: 8px 12px 8px 0;">⟵ 返回</span>
-                <span class="cal-header-title">梦境封印录</span>
+                <span class="cal-header-title">梦境回忆录</span>
                 <span class="cal-dream-count" id="cal-dream-count"></span>
             </div>
 
@@ -883,7 +934,7 @@
 
         <!-- 1.6 The Archive Detail Page -->
         <div class="view-step" id="step-archived-detail">
-            <div class="nav-back" onclick="goToStep('step-archived-detail', 'step-archive'); hideCalBottomSheet();">⟵ 返回封印录</div>
+            <div class="nav-back" onclick="goToStep('step-archived-detail', 'step-archive'); hideCalBottomSheet();">⟵ 返回回忆录</div>
             <div class="step-title" style="text-align: left; font-size: 1.5rem; margin-bottom: 5px;">高维的机器与光洞</div>
             <div class="archive-date" style="margin-bottom: 20px;">2026.04.04</div>
             
@@ -1052,7 +1103,7 @@
                     分享至潜意识社交网络
                 </button>
                 <button class="btn-manifest" id="archive-btn" style="display: none; margin-top: 10px; background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3);" onclick="goToStep('step-visual', 'step-archive'); initCalendar();">
-                    📜 梦境封印录
+                    📜 梦境回忆录
                 </button>
             </div>
         </div>
@@ -1563,7 +1614,7 @@
             }
         });
 
-        // --- 梦境封印录数据 ---
+        // --- 梦境回忆录数据 ---
         const dreams = [
             {
                 id: 1,
@@ -1604,8 +1655,8 @@
             const monthStr = year + '-' + String(month + 1).padStart(2, '0');
             const monthDreams = dreams.filter(function(d) { return d.date.startsWith(monthStr); });
             const countBar = document.getElementById('cal-count-bar');
-            countBar.textContent = monthDreams.length > 0 ? '本月 ' + monthDreams.length + ' 个封印 ·' : '';
-            document.getElementById('cal-dream-count').textContent = dreams.length > 0 ? dreams.length + ' 条封印' : '';
+            countBar.textContent = monthDreams.length > 0 ? '本月 ' + monthDreams.length + ' 个回忆 ·' : '';
+            document.getElementById('cal-dream-count').textContent = dreams.length > 0 ? dreams.length + ' 条回忆' : '';
 
             const dreamDateSet = new Set(dreams.map(function(d) { return d.date; }));
             const today = new Date();
