@@ -1601,6 +1601,7 @@
             const monthDreams = dreams.filter(function(d) { return d.date.startsWith(monthStr); });
             const countBar = document.getElementById('cal-count-bar');
             countBar.textContent = monthDreams.length > 0 ? '本月 ' + monthDreams.length + ' 个封印 ·' : '';
+            document.getElementById('cal-dream-count').textContent = dreams.length > 0 ? dreams.length + ' 条封印' : '';
 
             const dreamDateSet = new Set(dreams.map(function(d) { return d.date; }));
             const today = new Date();
@@ -1630,9 +1631,7 @@
                 if (dreamDateSet.has(dateStr)) {
                     cell.classList.add('has-dream');
                     cell.dataset.date = dateStr;
-                    (function(ds, el) {
-                        el.addEventListener('click', function() { selectCalDay(ds, el); });
-                    })(dateStr, cell);
+                    cell.addEventListener('click', function() { selectCalDay(dateStr, cell); });
                 } else {
                     cell.addEventListener('click', hideCalBottomSheet);
                 }
