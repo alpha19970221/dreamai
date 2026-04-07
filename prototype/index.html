@@ -799,7 +799,7 @@
         
         <!-- Navigation -->
         <div class="nav">
-            <h1>✦</h1>
+            <h1>◈</h1>
         </div>
 
         <!-- 1. The Entry Page (Mode Selection) -->
@@ -1019,7 +1019,7 @@
                 <button class="btn-manifest" onclick="triggerGenImage()" style="flex: 1; font-size: 0.85rem;">生成梦境图</button>
             </div>
 
-            <div class="gen-status" id="gen-status-text">✦ 正在凝聚梦境残影... ✦</div>
+            <div class="gen-status" id="gen-status-text">◈ 正在凝聚梦境残影... ◈</div>
 
             <button class="btn-manifest" id="btn-enter-dream" style="display: none; background: rgba(255,255,255,0.1);" onclick="goToStep('step-interpret', 'step-visual'); initVisualLogic();">
                 ✨ 梦境图生成完毕，进入梦境 ✨
@@ -1490,7 +1490,7 @@
                 const chatArea = document.getElementById('chat-area');
                 chatArea.style.display = 'flex';
                 document.getElementById('chat-gen-btn-row').style.display = 'block';
-                appendBotBubble('✦ 祭司已感应到你的追问。说吧，梦境之中，还有什么让你困惑？');
+                appendBotBubble('◈ 祭司已感应到你的追问。说吧，梦境之中，还有什么让你困惑？');
                 document.getElementById('chat-input').focus();
             }, 300);
         }
@@ -1501,7 +1501,7 @@
             bubble.className = 'chat-bubble chat-bubble-bot';
             const label = document.createElement('div');
             label.className = 'bubble-label';
-            label.textContent = '✦ 祭司';
+            label.textContent = '◈ 祭司';
             bubble.appendChild(label);
             bubble.append(text);
             msgs.appendChild(bubble);
