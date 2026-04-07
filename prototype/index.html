@@ -821,7 +821,7 @@
             </div>
 
             <!-- 考古模式入口 -->
-            <div class="archive-btn" onclick="goToStep('step-home', 'step-archive')">
+            <div class="archive-btn" onclick="goToStep('step-home', 'step-archive'); initCalendar();">
                 <span style="font-size: 1.1rem;">📜</span>
                 <span class="archive-text">梦境封印录</span>
             </div>
@@ -881,7 +881,7 @@
 
         <!-- 1.6 The Archive Detail Page -->
         <div class="view-step" id="step-archived-detail">
-            <div class="nav-back" onclick="goToStep('step-archived-detail', 'step-archive')">⟵ 返回封印录</div>
+            <div class="nav-back" onclick="goToStep('step-archived-detail', 'step-archive'); hideCalBottomSheet();">⟵ 返回封印录</div>
             <div class="step-title" style="text-align: left; font-size: 1.5rem; margin-bottom: 5px;">高维的机器与光洞</div>
             <div class="archive-date" style="margin-bottom: 20px;">2026.04.04</div>
             
@@ -1049,7 +1049,7 @@
                 <button class="btn-manifest" id="share-btn" style="display: none; margin-top: 15px;" onclick="alert('你已释放情绪。')">
                     分享至潜意识社交网络
                 </button>
-                <button class="btn-manifest" id="archive-btn" style="display: none; margin-top: 10px; background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3);" onclick="goToStep('step-visual', 'step-archive')">
+                <button class="btn-manifest" id="archive-btn" style="display: none; margin-top: 10px; background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3);" onclick="goToStep('step-visual', 'step-archive'); initCalendar();">
                     📜 梦境封印录
                 </button>
             </div>
