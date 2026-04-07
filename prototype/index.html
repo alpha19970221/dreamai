@@ -1655,6 +1655,7 @@
 
         function initCalendar() {
             calState = { year: new Date().getFullYear(), month: new Date().getMonth() };
+            switchCalView('calendar');
             renderCalendar(calState.year, calState.month);
             hideCalBottomSheet();
         }
@@ -1753,6 +1754,69 @@
             });
             document.getElementById('cal-empty-state').style.display = 'flex';
             document.getElementById('cal-bottom-sheet').classList.remove('open');
+        }
+
+        // --- 回忆卡册逻辑 ---
+        let calView = 'calendar';
+
+        function switchCalView(view) {
+            calView = view;
+            var isCalendar = view === 'calendar';
+
+            // 更新 tab 高亮
+            document.getElementById('tab-calendar').classList.toggle('active', isCalendar);
+            document.getElementById('tab-cards').classList.toggle('active', !isCalendar);
+
+            // 切换日历专属元素的显隐
+            document.getElementById('cal-month-nav').style.display = isCalendar ? '' : 'none';
+            document.getElementById('cal-weekdays').style.display = isCalendar ? '' : 'none';
+            document.getElementById('cal-grid').style.display = isCalendar ? 'grid' : 'none';
+            document.getElementById('cal-count-bar').style.display = isCalendar ? '' : 'none';
+            document.getElementById('cal-empty-state').style.display = isCalendar ? 'flex' : 'none';
+
+            // 关闭底部抽屉（不触发 hideCalBottomSheet 以免干扰 empty-state 显隐）
+            document.querySelectorAll('#cal-grid .cal-day.selected').forEach(function(el) {
+                el.classList.remove('selected');
+            });
+            document.getElementById('cal-bottom-sheet').classList.remove('open');
+
+            // 切换卡册列表
+            var cardList = document.getElementById('cal-card-list');
+            cardList.style.display = isCalendar ? 'none' : 'flex';
+            if (!isCalendar) { renderCards(); }
+        }
+
+        function renderCards() {
+            var listEl = document.getElementById('cal-card-list');
+            listEl.innerHTML = '';
+
+            // 按日期降序排列（最新在上）
+            var sorted = dreams.slice().sort(function(a, b) {
+                return b.date.localeCompare(a.date);
+            });
+
+            var weekLabels = ['日','一','二','三','四','五','六'];
+
+            sorted.forEach(function(dream) {
+                var parts = dream.date.split('-');
+                var y = parseInt(parts[0]), m = parseInt(parts[1]), d = parseInt(parts[2]);
+                var weekLabel = weekLabels[new Date(y, m - 1, d).getDay()];
+                var dateText = y + '年 ' + m + '月 ' + d + '日 · 周' + weekLabel;
+
+                var card = document.createElement('div');
+                card.className = 'cal-card-item';
+                card.innerHTML =
+                    '<div class="cal-card-rune">◈</div>' +
+                    '<div class="cal-card-body">' +
+                        '<div class="cal-card-date">' + dateText + '</div>' +
+                        '<div class="cal-card-title">' + dream.title + '</div>' +
+                        '<div class="cal-card-preview">' + dream.preview + '</div>' +
+                    '</div>';
+                card.onclick = function() {
+                    goToStep('step-archive', 'step-archived-detail');
+                };
+                listEl.appendChild(card);
+            });
         }
     </script>
 </body>
