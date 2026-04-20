@@ -453,15 +453,189 @@
         .nav-back { font-size: 1rem; color: rgba(255,255,255,0.6); cursor: pointer; margin-bottom: 20px; transition: color 0.3s ease; display: inline-block; }
         .nav-back:hover { color: #fff; }
 
-        .archive-list { display: flex; flex-direction: column; gap: 16px; padding-bottom: 30px; margin-top: 20px;}
-        .archive-card {
-            background: linear-gradient(145deg, rgba(30, 30, 45, 0.4), rgba(15, 15, 25, 0.6));
-            border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 20px;
-            cursor: pointer; transition: transform 0.3s ease, border-color 0.3s ease;
+        /* --- 日历视图 (Calendar) --- */
+        #step-archive { padding: 50px 0 0; overflow: hidden !important; }
+
+        .cal-header {
+            display: flex; align-items: center; gap: 8px;
+            padding: 0 20px 12px; border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: relative;
         }
-        .archive-card:hover { transform: translateY(-3px); border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .cal-header-title {
+            font-family: 'Noto Serif SC', serif; font-size: 1.1rem; color: #fff;
+            position: absolute; left: 50%; transform: translateX(-50%);
+        }
+        .cal-dream-count {
+            margin-left: auto; font-size: 0.72rem; color: rgba(139,92,246,0.7);
+        }
+
+        .cal-month-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 28px 8px;
+        }
+        .cal-nav-btn {
+            font-size: 1.3rem; color: rgba(255,255,255,0.3); cursor: pointer;
+            padding: 4px 10px; transition: color 0.2s;
+        }
+        .cal-nav-btn:hover { color: #a78bfa; }
+        .cal-month-title {
+            font-family: 'Noto Serif SC', serif; font-size: 1rem; color: #e2d9f3;
+        }
+
+        .cal-weekdays {
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            padding: 0 12px; margin-bottom: 4px;
+        }
+        .cal-weekday {
+            text-align: center; font-size: 0.68rem; color: rgba(255,255,255,0.2); padding: 4px 0;
+        }
+
+        .cal-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            gap: 4px; padding: 0 12px;
+        }
+        .cal-day {
+            aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; color: rgba(255,255,255,0.3); border-radius: 50%;
+            cursor: default; position: relative; transition: background 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .cal-day.today {
+            color: rgba(255,255,255,0.75);
+            border: 1px solid rgba(139,92,246,0.4);
+        }
+        .cal-day.has-dream {
+            color: #e2d9f3; cursor: pointer;
+        }
+        .cal-day.has-dream::before {
+            content: '◈'; position: absolute;
+            font-size: 1.8rem; color: rgba(139,92,246,0.22);
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            pointer-events: none; line-height: 1;
+        }
+        .cal-day.has-dream:hover { background: rgba(139,92,246,0.12); }
+        .cal-day.selected {
+            background: rgba(139,92,246,0.45) !important;
+            color: #fff !important;
+            box-shadow: 0 0 12px rgba(139,92,246,0.4);
+        }
+        .cal-day.selected::before { display: none; }
+
+        .cal-count-bar {
+            padding: 8px 16px 0; font-size: 0.72rem;
+            color: rgba(139,92,246,0.55); text-align: right;
+        }
+
+        .cal-empty-state {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            opacity: 0.45; padding: 0 24px; pointer-events: none;
+        }
+        .cal-empty-symbol { font-size: 2.5rem; color: rgba(139,92,246,0.4); margin-bottom: 12px; }
+        .cal-empty-text {
+            font-family: 'Noto Serif SC', serif; font-size: 0.85rem;
+            color: rgba(255,255,255,0.4); text-align: center; line-height: 2;
+        }
+
+        /* 底部抽屉 */
+        .cal-bottom-sheet {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(160deg, rgba(22,16,42,0.98), rgba(8,8,20,0.99));
+            border-top: 1px solid rgba(139,92,246,0.25);
+            border-radius: 22px 22px 0 0;
+            padding: 10px 20px 36px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.5);
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 20;
+            pointer-events: none;
+        }
+        .cal-bottom-sheet.open { transform: translateY(0); pointer-events: auto; }
+        .cal-bs-handle {
+            width: 36px; height: 3px; background: rgba(255,255,255,0.12);
+            border-radius: 2px; margin: 0 auto 14px;
+        }
+        .cal-bs-date {
+            font-size: 0.72rem; color: rgba(139,92,246,0.8);
+            letter-spacing: 1px; margin-bottom: 10px; text-align: center;
+        }
+        .cal-bs-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px; padding: 14px 16px; margin-bottom: 14px;
+        }
+        .cal-bs-title {
+            font-family: 'Noto Serif SC', serif; font-size: 1.05rem; color: #fff; margin-bottom: 8px;
+        }
+        .cal-bs-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+        .cal-bs-tag {
+            font-size: 0.72rem; background: rgba(255,255,255,0.07);
+            padding: 3px 10px; border-radius: 10px; color: rgba(255,255,255,0.6);
+        }
+        .cal-bs-preview {
+            font-size: 0.8rem; color: rgba(255,255,255,0.38); line-height: 1.7;
+        }
+        .cal-bs-btn {
+            display: block; text-align: center;
+            font-family: 'Noto Serif SC', serif; font-size: 0.9rem;
+            background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.35);
+            border-radius: 14px; padding: 12px; color: #a78bfa; cursor: pointer;
+            transition: background 0.2s;
+        }
+        .cal-bs-btn:hover { background: rgba(139,92,246,0.25); }
+
+        /* Tab 切换栏 */
+        .cal-tab-bar {
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            flex-shrink: 0;
+        }
+        .cal-tab {
+            flex: 1; text-align: center; padding: 10px 0;
+            font-size: 0.82rem; color: rgba(255,255,255,0.3);
+            cursor: pointer; transition: color 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        .cal-tab.active,
+        .cal-tab:active {
+            color: #a78bfa;
+            border-bottom: 2px solid #a78bfa;
+        }
+
+        /* 卡册列表 */
+        .cal-card-list {
+            flex: 1; overflow-y: auto;
+            padding: 12px 20px;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .cal-card-item {
+            display: flex; align-items: flex-start; gap: 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(139,92,246,0.15);
+            border-radius: 12px; padding: 14px 16px;
+            cursor: pointer; transition: background 0.2s;
+            flex-shrink: 0;
+        }
+        .cal-card-item:hover,
+        .cal-card-item:active { background: rgba(139,92,246,0.08); }
+        .cal-card-rune {
+            font-size: 1.4rem; color: rgba(139,92,246,0.4);
+            line-height: 1; flex-shrink: 0; margin-top: 2px;
+        }
+        .cal-card-body { flex: 1; min-width: 0; }
+        .cal-card-date {
+            font-size: 0.7rem; color: rgba(139,92,246,0.6); margin-bottom: 4px;
+        }
+        .cal-card-title {
+            font-family: 'Noto Serif SC', serif; font-size: 1rem;
+            color: #fff; margin-bottom: 4px;
+        }
+        .cal-card-preview {
+            font-size: 0.78rem; color: rgba(255,255,255,0.35);
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+
         .archive-date { font-size: 0.8rem; color: #a78bfa; margin-bottom: 8px; letter-spacing: 1px; }
-        .archive-card-title { font-family: 'Noto Serif SC', serif; font-size: 1.1rem; color: #fff; margin-bottom: 12px; }
         .archive-tags { display: flex; gap: 8px; flex-wrap: wrap; }
         .archive-tags span { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 12px; color: rgba(255,255,255,0.8); }
 
@@ -474,10 +648,10 @@
 
         /* --- Tarot Interactive Phase --- */
         .tarot-container {
-            display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 30px;
+            display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 15px; margin-top: 30px;
         }
         .tarot-card {
-            width: 90px; height: 160px; background: rgba(20, 15, 30, 0.8);
+            width: 90px; height: 180px; background: rgba(20, 15, 30, 0.8);
             border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 0 15px rgba(139, 92, 246, 0.1);
             cursor: pointer; position: relative; transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -499,8 +673,8 @@
         }
         
         .tarot-card-title {
-            color: rgba(255,255,255,0.8); font-size: 0.95rem; font-family: 'Noto Serif SC', serif;
-            text-align: center; margin-top: 15px; writing-mode: vertical-rl; letter-spacing: 4px;
+            color: rgba(255,255,255,0.8); font-size: 0.9rem; font-family: 'Noto Serif SC', serif;
+            text-align: center; margin-top: 12px; writing-mode: vertical-rl; letter-spacing: 3px;
         }
         .tarot-icon { font-size: 1.8rem; text-shadow: 0 0 15px rgba(139, 92, 246, 0.9); z-index: 2; }
         
@@ -546,6 +720,130 @@
         }
         .tarot-overlay.active { pointer-events: auto; opacity: 1; }
 
+        /* ── Stream Cursor ── */
+        .stream-cursor {
+            display: inline-block;
+            width: 0.6em;
+            height: 1em;
+            background: rgba(255, 255, 255, 0.85);
+            margin-left: 1px;
+            vertical-align: text-bottom;
+            border-radius: 1px;
+            animation: cursorBlink 0.75s step-end infinite;
+        }
+        @keyframes cursorBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* ── Chat Interface ── */
+        #chat-area {
+            display: none;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 10px;
+            animation: slideUpFadeIn 0.4s forwards;
+        }
+        #chat-messages {
+            height: 240px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 12px 4px;
+            scrollbar-width: none;
+        }
+        #chat-messages::-webkit-scrollbar { display: none; }
+        .chat-bubble {
+            max-width: 78%;
+            padding: 10px 14px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+        .chat-bubble-bot {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px 18px 18px 4px;
+            color: #c4b5fd;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+        }
+        .chat-bubble-bot .bubble-label {
+            font-size: 0.72rem;
+            color: rgba(167, 139, 250, 0.7);
+            margin-bottom: 4px;
+            font-family: 'Noto Serif SC', serif;
+        }
+        .chat-bubble-user {
+            align-self: flex-end;
+            background: rgba(139, 92, 246, 0.38);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            border-radius: 18px 18px 4px 18px;
+            color: #ede9fe;
+        }
+        .typing-indicator {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px 18px 18px 4px;
+            padding: 10px 16px;
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #a78bfa;
+            animation: typingBounce 1s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-5px); opacity: 1; }
+        }
+        #chat-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        #chat-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 22px;
+            padding: 10px 16px;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            outline: none;
+            resize: none;
+            height: 40px;
+            line-height: 20px;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+        }
+        #chat-input::placeholder { color: rgba(255,255,255,0.3); }
+        #chat-input:focus { border-color: rgba(139, 92, 246, 0.7); }
+        #chat-send-btn {
+            width: 40px;
+            height: 40px;
+            min-height: unset;
+            border-radius: 50%;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+        #chat-send-btn:hover { background: rgba(139, 92, 246, 0.8); }
+
     </style>
 </head>
 <body>
@@ -554,7 +852,7 @@
         
         <!-- Navigation -->
         <div class="nav">
-            <h1>✦</h1>
+            <h1>◈</h1>
         </div>
 
         <!-- 1. The Entry Page (Mode Selection) -->
@@ -577,54 +875,77 @@
             </div>
 
             <!-- 考古模式入口 -->
-            <div class="archive-btn" onclick="goToStep('step-home', 'step-archive')">
+            <div class="archive-btn" onclick="goToStep('step-home', 'step-archive'); initCalendar();">
                 <span style="font-size: 1.1rem;">📜</span>
-                <span class="archive-text">梦境封印录</span>
+                <span class="archive-text">梦境回忆录</span>
             </div>
         </div>
 
-        <!-- 1.5 The Archive Page (Dream List) -->
+        <!-- 1.5 The Archive Page (Calendar View) -->
         <div class="view-step" id="step-archive">
-            <div class="nav-back" onclick="goToStep('step-archive', 'step-home')">⟵ 返回</div>
-            <div class="step-title" style="text-align: left; font-size: 1.8rem;">梦境封印录</div>
-            <div class="step-subtitle" style="text-align: left; margin-bottom: 10px;">重新凝视你遗落的潜意识碎片</div>
-            
-            <div class="archive-list">
-                <div class="archive-card" onclick="goToStep('step-archive', 'step-archived-detail')">
-                    <div class="archive-date">2026.04.04</div>
-                    <div class="archive-card-title">高维的机器与光洞</div>
-                    <div class="archive-tags">
-                        <span>#光球</span>
-                        <span>#新生</span>
-                        <span>#高维游戏</span>
-                    </div>
+            <!-- 顶部导航 -->
+            <div class="cal-header">
+                <span class="nav-back" onclick="goToStep('step-archive', 'step-home')" style="margin-bottom:0; padding: 8px 12px 8px 0;">⟵ 返回</span>
+                <span class="cal-header-title">梦境回忆录</span>
+                <span class="cal-dream-count" id="cal-dream-count"></span>
+            </div>
+
+            <!-- 视图切换标签 -->
+            <div class="cal-tab-bar">
+                <div class="cal-tab active" id="tab-calendar" onclick="switchCalView('calendar')">📅 日历</div>
+                <div class="cal-tab" id="tab-cards" onclick="switchCalView('cards')">🃏 卡册</div>
+            </div>
+
+            <!-- 月份导航 -->
+            <div class="cal-month-nav" id="cal-month-nav">
+                <span class="cal-nav-btn" onclick="changeMonth(-1)">‹</span>
+                <span class="cal-month-title" id="cal-month-title"></span>
+                <span class="cal-nav-btn" onclick="changeMonth(1)">›</span>
+            </div>
+
+            <!-- 星期标题行 -->
+            <div class="cal-weekdays" id="cal-weekdays">
+                <div class="cal-weekday">日</div>
+                <div class="cal-weekday">一</div>
+                <div class="cal-weekday">二</div>
+                <div class="cal-weekday">三</div>
+                <div class="cal-weekday">四</div>
+                <div class="cal-weekday">五</div>
+                <div class="cal-weekday">六</div>
+            </div>
+
+            <!-- 日历格子（JS 动态渲染） -->
+            <div class="cal-grid" id="cal-grid"></div>
+
+            <!-- 本月计数 -->
+            <div class="cal-count-bar" id="cal-count-bar"></div>
+
+            <!-- 未选中日期时的引导文案 -->
+            <div class="cal-empty-state" id="cal-empty-state">
+                <div class="cal-empty-symbol">◈</div>
+                <div class="cal-empty-text">轻触日历中的日期<br>重新凝视那夜的梦境碎片</div>
+            </div>
+
+            <!-- 卡册视图（默认隐藏） -->
+            <div class="cal-card-list" id="cal-card-list" style="display:none;"></div>
+
+            <!-- 底部抽屉（点击有梦日期后滑入） -->
+            <div class="cal-bottom-sheet" id="cal-bottom-sheet">
+                <div class="cal-bs-handle"></div>
+                <div class="cal-bs-date" id="cal-bs-date"></div>
+                <div class="cal-bs-card">
+                    <div class="cal-bs-title" id="cal-bs-title"></div>
+                    <div class="cal-bs-tags" id="cal-bs-tags"></div>
+                    <div class="cal-bs-preview" id="cal-bs-preview"></div>
                 </div>
-                
-                <div class="archive-card">
-                    <div class="archive-date">2026.03.28</div>
-                    <div class="archive-card-title">深海无止境的下坠</div>
-                    <div class="archive-tags">
-                        <span>#失重感</span>
-                        <span>#水</span>
-                        <span>#深海</span>
-                    </div>
-                </div>
-                
-                <div class="archive-card">
-                    <div class="archive-date">2026.03.15</div>
-                    <div class="archive-card-title">在长廊中被追逐</div>
-                    <div class="archive-tags">
-                        <span>#奔跑</span>
-                        <span>#迷宫</span>
-                        <span>#焦虑</span>
-                    </div>
-                </div>
+                <!-- 底部抽屉内按钮，空间受限，以 .cal-bs-btn 代替 .btn-manifest 保持视觉一致性 -->
+                <div class="cal-bs-btn" onclick="goToStep('step-archive', 'step-archived-detail')">深入凝视 →</div>
             </div>
         </div>
 
         <!-- 1.6 The Archive Detail Page -->
         <div class="view-step" id="step-archived-detail">
-            <div class="nav-back" onclick="goToStep('step-archived-detail', 'step-archive')">⟵ 返回封印录</div>
+            <div class="nav-back" onclick="goToStep('step-archived-detail', 'step-archive'); initCalendar();">⟵ 返回回忆录</div>
             <div class="step-title" style="text-align: left; font-size: 1.5rem; margin-bottom: 5px;">高维的机器与光洞</div>
             <div class="archive-date" style="margin-bottom: 20px;">2026.04.04</div>
             
@@ -697,28 +1018,46 @@
             
             <div class="tarot-container" id="tarot-deck">
                 <div class="tarot-card" onclick="openTarot(this)">
-                    <div class="tarot-icon">👁️</div>
-                    <div class="tarot-card-title">情绪回响</div>
+                    <div class="tarot-icon">🌊</div>
+                    <div class="tarot-card-title">情感基调</div>
                     <div class="tarot-input-container">
-                        <textarea class="tarot-textarea" placeholder="这股能量让你在那一刻感受到了什么？是恐惧、解脱，亦或是某种深沉的宁静..."></textarea>
-                        <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
-                    </div>
-                </div>
-                
-                <div class="tarot-card" onclick="openTarot(this)">
-                    <div class="tarot-icon">⛓️</div>
-                    <div class="tarot-card-title">现实羁绊</div>
-                    <div class="tarot-input-container">
-                        <textarea class="tarot-textarea" placeholder="近期现实中，有什么被困住的局面让你产生了类似的剥离感？你想起了什么人或事？"></textarea>
+                        <textarea class="tarot-textarea" placeholder="醒来时，这个梦留给你的整体感觉是什么？沉重、困惑、温暖，还是别的什么..."></textarea>
                         <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
                     </div>
                 </div>
 
                 <div class="tarot-card" onclick="openTarot(this)">
-                    <div class="tarot-icon">🕳️</div>
-                    <div class="tarot-card-title">未解之惧</div>
+                    <div class="tarot-icon">🐕</div>
+                    <div class="tarot-card-title">现实中的狗</div>
                     <div class="tarot-input-container">
-                        <textarea class="tarot-textarea" placeholder="在这个空间的倒影里，你潜意识最害怕面对，或最不想失去的是什么？"></textarea>
+                        <textarea class="tarot-textarea" placeholder="现实中那只狗是什么样的？它现在在哪里？你们之间有什么故事..."></textarea>
+                        <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
+                    </div>
+                </div>
+
+                <div class="tarot-card" onclick="openTarot(this)">
+                    <div class="tarot-icon">🏠</div>
+                    <div class="tarot-card-title">那家人的房子和狗</div>
+                    <div class="tarot-input-container">
+                        <textarea class="tarot-textarea" placeholder="梦里那家人是谁？那只不吃狗粮的狗，给你留下了什么印象..."></textarea>
+                        <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
+                    </div>
+                </div>
+
+                <div class="tarot-card" onclick="openTarot(this)">
+                    <div class="tarot-icon">🌀</div>
+                    <div class="tarot-card-title">自由联想</div>
+                    <div class="tarot-input-container">
+                        <textarea class="tarot-textarea" placeholder="看到"一模一样的另一只小狗"，你第一个想到的是什么？不用解释，随手写下..."></textarea>
+                        <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
+                    </div>
+                </div>
+
+                <div class="tarot-card" onclick="openTarot(this)">
+                    <div class="tarot-icon">🌑</div>
+                    <div class="tarot-card-title">近期困扰</div>
+                    <div class="tarot-input-container">
+                        <textarea class="tarot-textarea" placeholder="最近生活或工作中，有什么事情让你感到困住了，或找不到出口..."></textarea>
                         <button class="tarot-close-btn" onclick="closeTarot(event, this)">完成注入</button>
                     </div>
                 </div>
@@ -732,25 +1071,53 @@
 
         <!-- 4. Interpret & Generate Image -->
         <div class="view-step" id="step-interpret">
-            <div class="step-title" style="text-align: left; font-size: 1.8rem; margin-bottom: 30px;">指引：高维的游戏</div>
-            
+            <div class="step-title" style="text-align: left; font-size: 1.8rem; margin-bottom: 30px;">指引：逝去的小狗</div>
+
             <div class="interpret-content">
-                <p>「你梦见世界是高维的机器，死亡只是穿过了光洞，化为纯净的光球...」</p>
-                <p>在传统的《周公解梦》中，梦见“死亡”与“穿过洞穴”绝非不祥，而是极为典型的<strong>「新生与蜕变之兆」</strong>。它预示着你即将在现实中告别某个受困的旧周期，迎来一次深刻的认知觉醒。</p>
-                <p>结合潜意识心理学，那个光球汇聚的“纯白空间”与“体验人生的屏幕”，折射出你拥有极其广阔的俯视视角。现实中的纷纷扰扰对你而言，正逐渐变成一场可以随意浏览的深层游戏。你已经开始从焦虑中抽离，成为了一个清醒的<strong>「旁观者」</strong>。</p>
+                <p><strong>一、狗与狗粮：您“想要给予”的自我象征</strong></p>
+                <p><strong>死去的小狗</strong>：代表您已经失去的、无法再接受您给予的对象。可能是您真正关心过的某个人、某段关系，也可能是您过去某个成功的“用户需求”（就像您事业上曾经顺利满足过的那类人）。</p>
+                <p><strong>狗粮</strong>：象征您手中拥有的、您认为有价值且饱含爱意的东西——具体到现实，很可能就是您<strong>事业上想提供的服务或产品</strong>。您说“没有特别的回忆”，反而说明狗粮本身不是重点，<strong>“喂”这个动作</strong>才是重点：您想给予，想被需要。</p>
+                <p><strong>“我牵着他”</strong>：逝去的小狗被您牵着，说明您并未真正放下。它仍被您带在身边，参与您当前的行为——这对应了现实：您可能仍在用过去满足“某类用户”的思路，去寻找现在的用户。</p>
+                <p><strong>二、邻居的房子与不吃的狗：被拒绝的投射</strong></p>
+                <p><strong>邻居</strong>：弗洛伊德常将“邻居”视为<strong>社交世界中与自己相似但不同的他人</strong>。邻居的狗，则是<strong>潜在的用户、客户，或您希望帮助的某个群体</strong>。</p>
+                <p><strong>它不吃您的狗粮</strong>：这是梦最直白的受挫情节。对应您现实中的核心困扰——“找不到用户”，或者说，<strong>您把东西递过去，对方不接收</strong>。梦没有显示邻居的狗是厌恶还是冷漠，只是“不吃”——这很像市场反馈中的“没需求”，而非负面攻击。</p>
+                <p><strong>三、“另一只一模一样的小狗”：最关键的伪装</strong></p>
+                <p>这是梦最精彩也最矛盾的地方。您说“我只有一条狗”，但梦里出现了“另一只小狗”，并且<strong>长得和死去的一模一样</strong>。在弗洛伊德看来，这是典型的<strong>“分身”或“替代形成”</strong>。它的作用是：<strong>在不承认逝者已去的前提下，创造一个可以继续接收您给予的对象</strong>。</p>
+                <p>为什么它会一模一样？因为您内心真正渴望喂给的，<strong>依然是原来的那只狗</strong>。但您也知道它死了，所以无意识制造了一个“活着的复制品”。这个复制品不是真的，所以您会困惑；但它长得一样，所以您能继续“喂”下去。</p>
+                <p>这里藏着一个更深的自我安慰：您把狗粮喂给了“另一只小狗”，意味着您<strong>允许自己把原本要给逝者的爱，投注给一个相似的新对象</strong>。但梦的困惑感提醒您：您还没有真正准备好接受“它不再是它”这个事实。</p>
+                <p><strong>四、“第一次见面”的联想与事业困境的链接</strong></p>
+                <p>“第一次见面”代表<strong>美好的开端、彼此确认的那一刻</strong>——需求与满足第一次相遇。那是您事业上曾经找到用户时的兴奋感，也是您与逝去小狗之间纯粹的情感连接。而现实中的“找不到用户”，恰恰是<strong>无法开启任何新的“第一次见面”</strong>。</p>
+                <p>梦的逻辑链条：<strong>现实</strong>：找不到愿意接受的人/用户 → <strong>梦</strong>：邻居的狗不吃 → <strong>梦的补救</strong>：创造一只一模一样的替身狗，让它吃 → <strong>但您内心知道</strong>：那是假的，所以困惑。</p>
+                <p><strong>五、为什么是“两只狗”而不是一只？</strong></p>
+                <p>因为您只有一条狗，所以“另一只”是虚构的。这个虚构揭示了您的<strong>两难处境</strong>：您不愿意把狗粮（价值/产品）给一个完全陌生的对象（邻居的狗不接受，暗示那些潜在用户“不是您想给的人”）。您也无法再给原来的对象（狗已死）。于是您创造了一个<strong>介乎于过去与未来之间的幻象</strong>——像过去一样，但不是过去。</p>
+                <p>这正是您事业困境的心理投影：<strong>您怀念过去那种“需求明确、用户匹配”的状态，不愿意或不知道如何为一个完全陌生的新用户设计价值</strong>。您想找的用户，其实是“过去的用户的影子”。</p>
+                <p><strong>梦的总结与醒后困惑的意义</strong></p>
+                <p>您醒后感到的“困惑”，不是病态的，而是<strong>一种健康的矛盾信号</strong>。您的无意识在说：</p>
+                <p>「我知道我想要什么（给予并被人需要），我也知道我遇到了阻碍（没人吃我的粮）。我甚至为自己创造了一个完美的接收者（另一只一样的狗），但我骗不了自己——它只是看起来像，并不是它。」</p>
+                <p>这个梦不是噩梦，也不是美梦，而是一个<strong>诚实的工作梦</strong>。它没有直接满足“找到用户”的愿望，而是暴露了您在愿望与现实之间的心理操作。</p>
             </div>
 
-            <div style="flex-grow: 1;"></div> 
+            <div style="flex-grow: 1;"></div>
 
-            <div class="slider-wrapper" id="gen-slider-wrapper">
-                <div class="slider-hint" id="gen-slider-hint">生成梦境图，回到现场 ➔</div>
-                <div class="slider-track" id="gen-slider-track"></div>
-                <div class="slider-thumb" id="gen-slider-thumb">
-                    <span style="color:#3b82f6; font-size:1.2rem; font-weight:bold;">→</span>
+            <!-- Chat Interface -->
+            <div id="chat-area">
+                <div id="chat-messages">
+                </div>
+                <div id="chat-input-row">
+                    <input type="text" id="chat-input" placeholder="向祭司追问..." />
+                    <button id="chat-send-btn" class="btn-manifest" onclick="sendChatMessage()">↑</button>
+                </div>
+                <div id="chat-gen-btn-row" style="display: none; margin-bottom: 8px;">
+                    <button class="btn-manifest" onclick="triggerGenImage()" style="width: 100%; font-size: 0.85rem;">生成梦境图</button>
                 </div>
             </div>
 
-            <div class="gen-status" id="gen-status-text">✦ 正在凝聚梦境残影... ✦</div>
+            <div id="gen-action-btns" style="display: none; gap: 12px; margin-bottom: 8px;">
+                <button class="btn-manifest" onclick="openChat()" style="flex: 1; font-size: 0.85rem; background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3);">我想继续追问</button>
+                <button class="btn-manifest" onclick="triggerGenImage()" style="flex: 1; font-size: 0.85rem;">生成梦境图</button>
+            </div>
+
+            <div class="gen-status" id="gen-status-text">◈ 正在凝聚梦境残影... ◈</div>
 
             <button class="btn-manifest" id="btn-enter-dream" style="display: none; background: rgba(255,255,255,0.1);" onclick="goToStep('step-interpret', 'step-visual'); initVisualLogic();">
                 ✨ 梦境图生成完毕，进入梦境 ✨
@@ -782,6 +1149,9 @@
                 <button class="btn-manifest" id="share-btn" style="display: none; margin-top: 15px;" onclick="alert('你已释放情绪。')">
                     分享至潜意识社交网络
                 </button>
+                <button class="btn-manifest" id="archive-btn" style="display: none; margin-top: 10px; background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3);" onclick="goToStep('step-visual', 'step-archive'); initCalendar();">
+                    📜 梦境回忆录
+                </button>
             </div>
         </div>
 
@@ -798,6 +1168,8 @@
             
             setTimeout(() => {
                 current.classList.remove('active');
+                next.style.opacity = '';
+                next.style.transform = '';
                 next.classList.add('active');
             }, 600);
         }
@@ -901,15 +1273,96 @@
         }
 
         function finishTarot() {
+            // 转场前重置 step-interpret 所有状态
+            document.querySelector('#step-interpret .interpret-content').innerHTML = '';
+            document.getElementById('btn-enter-dream').style.display = 'none';
+            document.getElementById('btn-enter-dream').style.animation = '';
+            document.getElementById('gen-status-text').style.display = 'none';
+
             goToStep('step-tarot', 'step-loading');
             document.getElementById('loading-text').innerText = "祭司正在凝结高维指引...";
-            
+
             setTimeout(() => {
                 goToStep('step-loading', 'step-interpret');
-                setTimeout(() => {
-                    initGenSlider();
-                }, 800);
+                setTimeout(streamInterpretContent, 800);
             }, 2500);
+        }
+
+        function streamInterpretContent() {
+            const contentEl = document.querySelector('#step-interpret .interpret-content');
+            // 硬编码最终 HTML，无多余空白节点
+            var finalHTML =
+                '<p><strong>一、狗与狗粮：您“想要给予”的自我象征</strong></p>' +
+                '<p><strong>死去的小狗</strong>：代表您已经失去的、无法再接受您给予的对象。可能是您真正关心过的某个人、某段关系，也可能是您过去某个成功的“用户需求”（就像您事业上曾经顺利满足过的那类人）。</p>' +
+                '<p><strong>狗粮</strong>：象征您手中拥有的、您认为有价值且饱含爱意的东西——具体到现实，很可能就是您<strong>事业上想提供的服务或产品</strong>。您说“没有特别的回忆”，反而说明狗粮本身不是重点，<strong>“喂”这个动作</strong>才是重点：您想给予，想被需要。</p>' +
+                '<p><strong>“我牵着他”</strong>：逝去的小狗被您牵着，说明您并未真正放下。它仍被您带在身边，参与您当前的行为——这对应了现实：您可能仍在用过去满足“某类用户”的思路，去寻找现在的用户。</p>' +
+                '<p><strong>二、邻居的房子与不吃的狗：被拒绝的投射</strong></p>' +
+                '<p><strong>邻居</strong>：弗洛伊德常将“邻居”视为<strong>社交世界中与自己相似但不同的他人</strong>。邻居的狗，则是<strong>潜在的用户、客户，或您希望帮助的某个群体</strong>。</p>' +
+                '<p><strong>它不吃您的狗粮</strong>：这是梦最直白的受挫情节。对应您现实中的核心困扰——“找不到用户”，或者说，<strong>您把东西递过去，对方不接收</strong>。梦没有显示邻居的狗是厌恶还是冷漠，只是“不吃”——这很像市场反馈中的“没需求”，而非负面攻击。</p>' +
+                '<p><strong>三、“另一只一模一样的小狗”：最关键的伪装</strong></p>' +
+                '<p>这是梦最精彩也最矛盾的地方。您说“我只有一条狗”，但梦里出现了“另一只小狗”，并且<strong>长得和死去的一模一样</strong>。在弗洛伊德看来，这是典型的<strong>“分身”或“替代形成”</strong>。它的作用是：<strong>在不承认逝者已去的前提下，创造一个可以继续接收您给予的对象</strong>。</p>' +
+                '<p>为什么它会一模一样？因为您内心真正渴望喂给的，<strong>依然是原来的那只狗</strong>。但您也知道它死了，所以无意识制造了一个“活着的复制品”。这个复制品不是真的，所以您会困惑；但它长得一样，所以您能继续“喂”下去。</p>' +
+                '<p>这里藏着一个更深的自我安慰：您把狗粮喂给了“另一只小狗”，意味着您<strong>允许自己把原本要给逝者的爱，投注给一个相似的新对象</strong>。但梦的困惑感提醒您：您还没有真正准备好接受“它不再是它”这个事实。</p>' +
+                '<p><strong>四、“第一次见面”的联想与事业困境的链接</strong></p>' +
+                '<p>“第一次见面”代表<strong>美好的开端、彼此确认的那一刻</strong>——需求与满足第一次相遇。那是您事业上曾经找到用户时的兴奋感，也是您与逝去小狗之间纯粹的情感连接。而现实中的“找不到用户”，恰恰是<strong>无法开启任何新的“第一次见面”</strong>。</p>' +
+                '<p>梦的逻辑链条：<strong>现实</strong>：找不到愿意接受的人/用户 → <strong>梦</strong>：邻居的狗不吃 → <strong>梦的补救</strong>：创造一只一模一样的替身狗，让它吃 → <strong>但您内心知道</strong>：那是假的，所以困惑。</p>' +
+                '<p><strong>五、为什么是“两只狗”而不是一只？</strong></p>' +
+                '<p>因为您只有一条狗，所以“另一只”是虚构的。这个虚构揭示了您的<strong>两难处境</strong>：您不愿意把狗粮（价值/产品）给一个完全陌生的对象（邻居的狗不接受，暗示那些潜在用户“不是您想给的人”）。您也无法再给原来的对象（狗已死）。于是您创造了一个<strong>介乎于过去与未来之间的幻象</strong>——像过去一样，但不是过去。</p>' +
+                '<p>这正是您事业困境的心理投影：<strong>您怀念过去那种“需求明确、用户匹配”的状态，不愿意或不知道如何为一个完全陌生的新用户设计价值</strong>。您想找的用户，其实是“过去的用户的影子”。</p>' +
+                '<p><strong>梦的总结与醒后困惑的意义</strong></p>' +
+                '<p>您醒后感到的“困惑”，不是病态的，而是<strong>一种健康的矛盾信号</strong>。您的无意识在说：</p>' +
+                '<p>「我知道我想要什么（给予并被人需要），我也知道我遇到了阻碍（没人吃我的粮）。我甚至为自己创造了一个完美的接收者（另一只一样的狗），但我骗不了自己——它只是看起来像，并不是它。」</p>' +
+                '<p>这个梦不是噩梦，也不是美梦，而是一个<strong>诚实的工作梦</strong>。它没有直接满足“找到用户”的愿望，而是暴露了您在愿望与现实之间的心理操作。</p>';
+
+            const paras = [
+                '您醒后感到的“困惑”，不是病态的，而是一种健康的矛盾信号。您的无意识在说：',
+                '「我知道我想要什么（给予并被人需要），我也知道我遇到了阻碍（没人吃我的粮）。我甚至为自己创造了一个完美的接收者，但我骗不了自己——它只是看起来像，并不是它。」',
+                '这个梦不是噩梦，也不是美梦，而是一个诚实的工作梦。它没有直接满足“找到用户”的愿望，而是暴露了您在愿望与现实之间的心理操作。'
+            ];
+            var actionBtns = document.getElementById('gen-action-btns');
+
+            // 清空内容，重建空段落 + text node
+            contentEl.innerHTML = '';
+            const tns = paras.map(function(text) {
+                var p = document.createElement('p');
+                var tn = document.createTextNode('');
+                p.appendChild(tn);
+                contentEl.appendChild(p);
+                return tn;
+            });
+
+            // 光标插入第一段末尾
+            var cursor = document.createElement('span');
+            cursor.className = 'stream-cursor';
+            contentEl.children[0].appendChild(cursor);
+
+            // 展平字符队列
+            var chars = [];
+            paras.forEach(function(text, pi) {
+                text.split('').forEach(function(ch) { chars.push({ ch: ch, pi: pi }); });
+            });
+
+            var idx = 0, curPi = 0;
+
+            function tick() {
+                if (idx >= chars.length) {
+                    cursor.remove();
+                    contentEl.innerHTML = finalHTML;
+                    actionBtns.style.display = 'flex';
+                    actionBtns.style.animation = 'slideUpFadeIn 0.5s forwards';
+                    return;
+                }
+                var item = chars[idx];
+                if (item.pi !== curPi) {
+                    curPi = item.pi;
+                    contentEl.children[curPi].appendChild(cursor);
+                }
+                tns[item.pi].nodeValue += item.ch;
+                idx++;
+                setTimeout(tick, 20);
+            }
+
+            tick(); // 立即开始，无需额外延迟
         }
 
         // --- Slider Logic --- //
@@ -988,21 +1441,49 @@
             document.addEventListener('touchend', onEnd);
         }
 
-        function initGenSlider() {
-            setupSlider('gen-slider', () => {
-                document.getElementById('gen-slider-wrapper').style.display = 'none';
-                document.getElementById('gen-status-text').style.display = 'block';
+        function triggerGenImage() {
+            const genBtns = document.getElementById('gen-action-btns');
+            const chatArea = document.getElementById('chat-area');
+
+            // 淡出当前区域（先清除 forwards 动画锁定，再设置过渡）
+            const fadeTargets = [genBtns, chatArea].filter(el => el && el.style.display !== 'none');
+            fadeTargets.forEach(el => {
+                el.style.animation = 'none';
+                void el.offsetHeight; // 强制 reflow，提交当前 opacity:1 状态
+                el.style.transition = 'opacity 0.35s';
+                el.style.opacity = '0';
+            });
+
+            setTimeout(() => {
+                fadeTargets.forEach(el => { el.style.display = 'none'; el.style.opacity = ''; });
+                const statusEl = document.getElementById('gen-status-text');
+                statusEl.style.opacity = '0';
+                statusEl.style.display = 'block';
+                statusEl.style.transition = 'opacity 0.4s';
+                requestAnimationFrame(() => { statusEl.style.opacity = '1'; });
 
                 setTimeout(() => {
-                    document.getElementById('gen-status-text').style.display = 'none';
+                    statusEl.style.display = 'none';
+                    statusEl.style.opacity = '';
                     const btn = document.getElementById('btn-enter-dream');
                     btn.style.display = 'block';
                     btn.style.animation = 'slideUpFadeIn 0.5s forwards';
                 }, 2500);
-            });
+            }, 350);
         }
 
         function initVisualLogic() {
+            // 重置状态（防止二次进入时残留）
+            document.getElementById('share-btn').style.display = 'none';
+            document.getElementById('archive-btn').style.display = 'none';
+            document.getElementById('step-visual').classList.remove('transformed');
+            document.getElementById('visual-slider-wrapper').style.display = '';
+            document.getElementById('visual-slider-wrapper').style.opacity = '';
+            document.getElementById('healing-img').style.opacity = '';
+            document.getElementById('visual-slider-thumb').style.transform = 'translateX(0px)';
+            document.getElementById('visual-slider-track').style.width = '0px';
+            document.getElementById('visual-slider-hint').style.opacity = '1';
+
             // Slight pan for visual drama
             setTimeout(() => {
                 document.getElementById('nightmare-img').style.transform = 'scale(1)';
@@ -1035,6 +1516,8 @@
                     document.getElementById('visual-slider-wrapper').style.display = 'none';
                     const shareBtn = document.getElementById('share-btn'); shareBtn.style.display = 'block';
                     shareBtn.style.animation = 'slideUpFadeIn 0.8s ease forwards';
+                    const archiveBtn = document.getElementById('archive-btn'); archiveBtn.style.display = 'block';
+                    archiveBtn.style.animation = 'slideUpFadeIn 0.8s ease 0.15s forwards'; archiveBtn.style.opacity = '0';
                 }, 500);
             }, () => {
                 const healingImg = document.getElementById('healing-img');
@@ -1096,6 +1579,297 @@
                 requestAnimationFrame(animate);
             }
             animate();
+        }
+
+        // ── Chat Interface Logic ──
+        const SHAMAN_REPLIES = [
+            '你所追问的，正是潜意识试图让你看见的裂缝。继续说，它在倾听。',
+            '这个问题本身，就是一把打开内室的钥匙。你感受到了什么？',
+            '梦境的语言从不撒谎。那个画面背后，藏着你尚未命名的情绪。',
+            '高维视角下，所有的困惑都是方向。你内心真正想放下的是什么？',
+            '宇宙用这个梦回应了你的某个请求。那个请求，你还记得吗？',
+            '意识是一面镜子，梦是镜子背后的光。你看到了自己的哪个侧面？',
+            '不必急于解读，有时候只是带着这个意象生活几天，答案会自己浮现。',
+            '你的追问本身就是疗愈的一部分。继续，祭司在此聆听。'
+        ];
+        let _lastReplyIndex = -1;
+        let _isTyping = false;
+
+        function openChat() {
+            const btns = document.getElementById('gen-action-btns');
+            if (btns.style.display === 'none') return;
+            btns.style.transition = 'opacity 0.3s';
+            btns.style.opacity = '0';
+            setTimeout(() => {
+                btns.style.display = 'none';
+                const chatArea = document.getElementById('chat-area');
+                chatArea.style.display = 'flex';
+                document.getElementById('chat-gen-btn-row').style.display = 'block';
+                appendBotBubble('◈ 祭司已感应到你的追问。说吧，梦境之中，还有什么让你困惑？');
+                document.getElementById('chat-input').focus();
+            }, 300);
+        }
+
+        function appendBotBubble(text) {
+            const msgs = document.getElementById('chat-messages');
+            const bubble = document.createElement('div');
+            bubble.className = 'chat-bubble chat-bubble-bot';
+            const label = document.createElement('div');
+            label.className = 'bubble-label';
+            label.textContent = '◈ 祭司';
+            bubble.appendChild(label);
+            bubble.append(text);
+            msgs.appendChild(bubble);
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+
+        function appendUserBubble(text) {
+            const msgs = document.getElementById('chat-messages');
+            const bubble = document.createElement('div');
+            bubble.className = 'chat-bubble chat-bubble-user';
+            bubble.textContent = text;
+            msgs.appendChild(bubble);
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+
+        function showTyping() {
+            const msgs = document.getElementById('chat-messages');
+            const typing = document.createElement('div');
+            typing.className = 'typing-indicator';
+            typing.id = 'typing-indicator';
+            typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+            msgs.appendChild(typing);
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+
+        function hideTyping() {
+            const el = document.getElementById('typing-indicator');
+            if (el) el.remove();
+        }
+
+        function getNextReply() {
+            let idx;
+            do { idx = Math.floor(Math.random() * SHAMAN_REPLIES.length); }
+            while (idx === _lastReplyIndex && SHAMAN_REPLIES.length > 1);
+            _lastReplyIndex = idx;
+            return SHAMAN_REPLIES[idx];
+        }
+
+        function sendChatMessage() {
+            if (_isTyping) return;
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+            _isTyping = true;
+            input.value = '';
+            appendUserBubble(text);
+            showTyping();
+            setTimeout(() => {
+                hideTyping();
+                appendBotBubble(getNextReply());
+                _isTyping = false;
+            }, 1200);
+        }
+
+        document.getElementById('chat-input').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.isComposing) {
+                e.preventDefault();
+                sendChatMessage();
+            }
+        });
+
+        // --- 梦境回忆录数据 ---
+        const dreams = [
+            {
+                id: 1,
+                date: '2026-04-04',
+                title: '高维的机器与光洞',
+                tags: ['光球', '新生', '高维游戏'],
+                preview: '我站在一个巨大的机械装置前，光洞从中心向外延伸，周围的空间开始扭曲…'
+            },
+            {
+                id: 2,
+                date: '2026-03-28',
+                title: '深海无止境的下坠',
+                tags: ['失重感', '水', '深海'],
+                preview: '深不见底的海水将我包裹，身体不受控制地向下坠落，耳边只有流水的轰鸣…'
+            },
+            {
+                id: 3,
+                date: '2026-03-15',
+                title: '在长廊中被追逐',
+                tags: ['奔跑', '迷宫', '焦虑'],
+                preview: '长廊的尽头永远看不见，脚步声在身后越来越近，转角处永远是另一段长廊…'
+            }
+        ];
+
+        // --- 日历视图逻辑 ---
+        let calState = { year: new Date().getFullYear(), month: new Date().getMonth() };
+
+        function initCalendar() {
+            calState = { year: new Date().getFullYear(), month: new Date().getMonth() };
+            switchCalView('calendar');
+            renderCalendar(calState.year, calState.month);
+            hideCalBottomSheet();
+        }
+
+        function renderCalendar(year, month) {
+            const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+            document.getElementById('cal-month-title').textContent = year + '年 ' + monthNames[month];
+
+            const monthStr = year + '-' + String(month + 1).padStart(2, '0');
+            const monthDreams = dreams.filter(function(d) { return d.date.startsWith(monthStr); });
+            const countBar = document.getElementById('cal-count-bar');
+            countBar.textContent = monthDreams.length > 0 ? '本月 ' + monthDreams.length + ' 个回忆 ·' : '';
+            document.getElementById('cal-dream-count').textContent = dreams.length > 0 ? dreams.length + ' 条回忆' : '';
+
+            const dreamDateSet = new Set(dreams.map(function(d) { return d.date; }));
+            const today = new Date();
+            const firstWeekday = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            const grid = document.getElementById('cal-grid');
+            grid.innerHTML = '';
+
+            // 月首空白格
+            for (let i = 0; i < firstWeekday; i++) {
+                const blank = document.createElement('div');
+                blank.className = 'cal-day';
+                grid.appendChild(blank);
+            }
+
+            // 日期格
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateStr = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+                const cell = document.createElement('div');
+                cell.className = 'cal-day';
+                cell.textContent = d;
+
+                const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === d;
+                if (isToday) cell.classList.add('today');
+
+                if (dreamDateSet.has(dateStr)) {
+                    cell.classList.add('has-dream');
+                    cell.dataset.date = dateStr;
+                    cell.addEventListener('click', function() { selectCalDay(dateStr, cell); });
+                } else {
+                    cell.addEventListener('click', hideCalBottomSheet);
+                }
+
+                grid.appendChild(cell);
+            }
+
+        }
+
+        function changeMonth(delta) {
+            calState.month += delta;
+            if (calState.month > 11) { calState.month = 0; calState.year++; }
+            if (calState.month < 0)  { calState.month = 11; calState.year--; }
+            renderCalendar(calState.year, calState.month);
+            hideCalBottomSheet();
+        }
+
+        function selectCalDay(dateStr, clickedCell) {
+            // 清除之前的选中状态
+            document.querySelectorAll('#cal-grid .cal-day.selected').forEach(function(el) {
+                el.classList.remove('selected');
+            });
+            clickedCell.classList.add('selected');
+
+            const dream = dreams.find(function(d) { return d.date === dateStr; });
+            if (!dream) return;
+
+            // 格式化日期文字
+            const parts = dateStr.split('-');
+            const y = parseInt(parts[0]), m = parseInt(parts[1]), day = parseInt(parts[2]);
+            const weekLabels = ['日','一','二','三','四','五','六'];
+            const weekLabel = weekLabels[new Date(y, m - 1, day).getDay()];
+            document.getElementById('cal-bs-date').textContent =
+                '· ' + y + '年 ' + m + '月 ' + day + '日 · 周' + weekLabel + ' ·';
+
+            document.getElementById('cal-bs-title').textContent = dream.title;
+
+            const tagsEl = document.getElementById('cal-bs-tags');
+            tagsEl.innerHTML = dream.tags.map(function(t) {
+                return '<span class="cal-bs-tag">#' + t + '</span>';
+            }).join('');
+
+            document.getElementById('cal-bs-preview').textContent = dream.preview;
+
+            // 显示底部抽屉
+            document.getElementById('cal-empty-state').style.display = 'none';
+            document.getElementById('cal-bottom-sheet').classList.add('open');
+        }
+
+        function hideCalBottomSheet() {
+            document.querySelectorAll('#cal-grid .cal-day.selected').forEach(function(el) {
+                el.classList.remove('selected');
+            });
+            document.getElementById('cal-empty-state').style.display = 'flex';
+            document.getElementById('cal-bottom-sheet').classList.remove('open');
+        }
+
+        // --- 回忆卡册逻辑 ---
+        let calView = 'calendar';
+
+        function switchCalView(view) {
+            calView = view;
+            var isCalendar = view === 'calendar';
+
+            // 更新 tab 高亮
+            document.getElementById('tab-calendar').classList.toggle('active', isCalendar);
+            document.getElementById('tab-cards').classList.toggle('active', !isCalendar);
+
+            // 切换日历专属元素的显隐
+            document.getElementById('cal-month-nav').style.display = isCalendar ? '' : 'none';
+            document.getElementById('cal-weekdays').style.display = isCalendar ? '' : 'none';
+            document.getElementById('cal-grid').style.display = isCalendar ? 'grid' : 'none';
+            document.getElementById('cal-count-bar').style.display = isCalendar ? '' : 'none';
+            document.getElementById('cal-empty-state').style.display = isCalendar ? 'flex' : 'none';
+
+            // 关闭底部抽屉（不触发 hideCalBottomSheet 以免干扰 empty-state 显隐）
+            document.querySelectorAll('#cal-grid .cal-day.selected').forEach(function(el) {
+                el.classList.remove('selected');
+            });
+            document.getElementById('cal-bottom-sheet').classList.remove('open');
+
+            // 切换卡册列表
+            var cardList = document.getElementById('cal-card-list');
+            cardList.style.display = isCalendar ? 'none' : 'flex';
+            if (!isCalendar) { renderCards(); }
+        }
+
+        function renderCards() {
+            var listEl = document.getElementById('cal-card-list');
+            listEl.innerHTML = '';
+
+            // 按日期降序排列（最新在上）
+            var sorted = dreams.slice().sort(function(a, b) {
+                return b.date.localeCompare(a.date);
+            });
+
+            var weekLabels = ['日','一','二','三','四','五','六'];
+
+            sorted.forEach(function(dream) {
+                var parts = dream.date.split('-');
+                var y = parseInt(parts[0]), m = parseInt(parts[1]), d = parseInt(parts[2]);
+                var weekLabel = weekLabels[new Date(y, m - 1, d).getDay()];
+                var dateText = y + '年 ' + m + '月 ' + d + '日 · 周' + weekLabel;
+
+                var card = document.createElement('div');
+                card.className = 'cal-card-item';
+                card.innerHTML =
+                    '<div class="cal-card-rune">◈</div>' +
+                    '<div class="cal-card-body">' +
+                        '<div class="cal-card-date">' + dateText + '</div>' +
+                        '<div class="cal-card-title">' + dream.title + '</div>' +
+                        '<div class="cal-card-preview">' + dream.preview + '</div>' +
+                    '</div>';
+                card.onclick = function() {
+                    goToStep('step-archive', 'step-archived-detail');
+                };
+                listEl.appendChild(card);
+            });
         }
     </script>
 </body>
